@@ -1,0 +1,19 @@
+<p>It’s common for iOS code to use constants for layout metrics:</p>
+
+<div class="redhighlight"><pre><code class="language-objc--" data-lang="objc++"><span class="k">static</span> <span class="k">const</span> <span class="n">CGFloat</span> <span class="n">kLeftMargin</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">;</span>
+<span class="k">static</span> <span class="k">const</span> <span class="n">CGFloat</span> <span class="n">kTopMargin</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">;</span>
+<span class="k">static</span> <span class="k">const</span> <span class="n">CGFloat</span> <span class="n">kRightMargin</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">;</span>
+<span class="k">static</span> <span class="k">const</span> <span class="n">CGFloat</span> <span class="n">kSpacingBetweenLines</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">;</span></code></pre></div>
+
+<p><strong>Only use constants if they are actually used in multiple places.</strong></p>
+
+<p>Since in Components there is no duplication between <code>sizeThatFits:</code> and <code>layoutSubviews</code>, you should rarely need to use constants for metrics. This is much more readable:</p>
+
+<p><code>objc++
+[CKInsetComponent
+ newWithInsets:{.left = 10, .top = 10, .right = 10}
+ component:
+ [CKStackLayoutComponent
+  newWithStyle:{.spacing = 5}
+  ...
+</code></p>

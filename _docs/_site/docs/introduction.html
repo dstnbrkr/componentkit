@@ -1,0 +1,43 @@
+<h2 id="what-is-a-component">What is a <strong>Component</strong>?</h2>
+
+<p><strong>A component is an immutable object that specifies how to configure a view.</strong> </p>
+
+<p>A simple analogy is to think of a component as a stencil, a fixed description that can be used to <em>paint</em> a view but that it is not a view itself. A component is often composed of other components, building up a component hierarchy that <em>describes</em> a user interface.</p>
+
+<p>Let’s dive in with some sample code for describing a simplistic story in News Feed:</p>
+
+<p>```objc++
+@implementation CKStoryComponent</p>
+
+<ul>
+  <li>(instancetype)newWithStory:(CKStoryModel *)story
+{
+return [super newWithComponent:
+        [CKStackLayoutComponent
+         newWithStyle:{
+           .direction = CKStackLayoutDirectionVertical,
+         }
+         children:{
+           {[CKHeaderComponent newWithStory:story]},
+           {[CKMessageComponent newWithMessage:story.message]},
+           {[CKFooterComponent newWithFeedback:story.footer]},
+         }];
+}</li>
+</ul>
+
+<p>@end
+```</p>
+
+<p>As you can see, a <strong>Component</strong> is:</p>
+
+<ul>
+  <li>
+    <p><strong>Declarative</strong>: Instead of implementing <code>-sizeThatFits:</code> and <code>-layoutSubviews</code> and positioning subviews manually, you declare the subcomponents of your component (here, we say “stack them vertically”).</p>
+  </li>
+  <li>
+    <p><strong>Functional</strong>: Data flows in one direction. Methods take data models and return totally immutable components. When state changes, the infrastructure re-renders from the root and reconciles the two component trees from the top with as few changes to the view hierarchy as possible.</p>
+  </li>
+  <li>
+    <p><strong>Composable</strong>: Here <code>CKFooterComponent</code> is used in a story, but it could be reused for other UI with a <code>Footer</code>. Reusing it is a one-liner. <code>CKStackLayoutComponent</code> is inspired by the <a href="http://www.w3.org/TR/css3-flexbox">flexbox model</a> of the web and can easily be used to implement many layouts.</p>
+  </li>
+</ul>

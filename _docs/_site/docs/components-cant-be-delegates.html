@@ -1,0 +1,59 @@
+<p>Remember the analogy made in the <a href="docs/introduction">Introduction</a>: components are like a stencil. They are an immutable snapshot of how a view should be configured at a given moment in time.</p>
+
+<p>Every time something changes, an entirely new component is created and the old one is thrown away. This means components are <strong>short-lived</strong>, and their lifecycle is not under your control. Thus they should not be delegates or <code>NSNotification</code> observers.</p>
+
+<p>An example: imagine you’re showing a <code>UIAlertView</code>. You might be tempted to make the component the delegate:</p>
+
+<div class="redhighlight"><pre><code class="language-objc--" data-lang="objc++"><span class="k">@implementation</span> <span class="nc">CKShareComponent</span> <span class="o">&lt;</span><span class="bp">UIAlertViewDelegate</span><span class="o">&gt;</span>
+<span class="p">{</span>
+  <span class="bp">UIAlertView</span> <span class="o">*</span><span class="n">_alertView</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">didTapShare</span>
+<span class="p">{</span>
+  <span class="n">_alertView</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UIAlertView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTitle</span><span class="p">:</span><span class="s">@&quot;Are you sure?&quot;</span>
+                                          <span class="nl">message</span><span class="p">:</span><span class="nb">nil</span>
+                                         <span class="nl">delegate</span><span class="p">:</span><span class="nb">self</span> <span class="p">...];</span>
+  <span class="p">[</span><span class="n">_alertView</span> <span class="n">show</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">alertView</span><span class="p">:(</span><span class="bp">UIAlertView</span> <span class="o">*</span><span class="p">)</span><span class="n">alert</span> <span class="nl">didDismissWithButtonIndex</span><span class="p">:(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="n">buttonIndex</span>
+<span class="p">{</span>
+  <span class="p">[</span><span class="nb">self</span> <span class="nl">updateState</span><span class="p">:...];</span>
+<span class="p">}</span>
+<span class="k">@end</span></code></pre></div>
+
+<p>But if the component hierarchy is regenerated for any reason, the original component will deallocate and the alert view will be left with no delegate.</p>
+
+<p>Instead, use <code>CKComponentController</code>. Component controllers are long-lived; they persist and keep track of each updated version of your component. You can <a href="docs/component-controllers">learn more about component controllers</a>; here’s an example of their use:</p>
+
+<p>```objc++</p>
+
+<p>@interface CKShareComponentController : CKComponentController <uialertviewdelegate>
+@end</uialertviewdelegate></p>
+
+<p>@implementation CKShareComponentController
+{
+  UIAlertView *_alertView;
+}</p>
+
+<ul>
+  <li>
+    <p>(void)didTapShare
+{
+_alertView = [[UIAlertView alloc] initWithTitle:@”Are you sure?”
+                                        message:nil
+                                       delegate:self …];
+[_alertView show];
+}</p>
+  </li>
+  <li>
+    <p>(void)alertView:(UIAlertView *)alert didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+[self.component updateState:…];
+}
+@end
+```</p>
+  </li>
+</ul>
+

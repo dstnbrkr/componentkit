@@ -1,0 +1,69 @@
+<p><a href="docs/component-controllers">Component controllers</a> expose lifecycle methods that allow you to perform custom operations as components mount, unmount, update, and acquire views.</p>
+
+<div class="note">
+  <p>
+     Whenever possible, avoid using lifecycle methods. Think of them as an emergency escape hatch for integrating with stateful code.
+  </p>
+</div>
+
+<h1 id="ordering">Ordering</h1>
+
+<p>Lifecycle methods have the following defined ordering.</p>
+
+<h3 id="mounting">Mounting</h3>
+
+<ol>
+  <li><code>willMount</code></li>
+  <li><code>componentDidAcquireView</code> <em>if</em> the controller’s component has a view</li>
+  <li><code>didMount</code> after the component <em>and</em> all of its children are mounted</li>
+</ol>
+
+<h3 id="remounting">Remounting</h3>
+
+<p>Remounting occurs when the controller’s component is already mounted and either the component is being updated or the root component is being attached to a different view.</p>
+
+<ol>
+  <li><code>willRemount</code></li>
+  <li>If the controller’s component creates a view and its previous view cannot be recycled:
+    <ol>
+      <li><code>componentWillRelinquishView</code></li>
+      <li><code>componentDidAcquireView</code></li>
+    </ol>
+  </li>
+  <li><code>didRemount</code></li>
+</ol>
+
+<h3 id="unmounting">Unmounting</h3>
+
+<ol>
+  <li><code>willUnmount</code></li>
+  <li><code>componentWillRelinquishView</code> <em>if</em> the controller’s component has a view</li>
+  <li><code>didUnmount</code></li>
+</ol>
+
+<div class="note-important">
+  <p>
+     There are no guarantees that the component's children or parents are mounted in `willUnmount` or `componentWillRelinquishView`. You **must not** use `CKComponentActionSend` or any other method that assumes the component's parents are mounted.
+  </p>
+</div>
+
+<h3 id="updating">Updating</h3>
+
+<p>The controller’s component can be updated to a new version of the component as part of the mounting or remounting process. In this case, you’ll receive the following callbacks:</p>
+
+<ol>
+  <li><code>willUpdateComponent</code> before <code>willMount</code> or <code>willRemount</code></li>
+  <li><code>didUpdateComponent</code> after <code>didMount</code> or <code>didRemount</code></li>
+</ol>
+
+<h1 id="uses">Uses</h1>
+
+<h3 id="mutating-the-view">Mutating the View</h3>
+
+<p>Generally views are a hidden implementation detail of Components, but you may need to break that abstraction:</p>
+
+<ul>
+  <li>Animations that cannot be implemented using <code>animationsFromPreviousComponent:</code>. Be sure you remove all animations in <code>componentWillRelinquishView</code>.</li>
+  <li>Interfacing with views that only expose event callbacks via a delegate API. Make the component controller the view’s delegate in <code>componentDidAcquireView</code> and nil out the view’s delegate in <code>componentWillRelinquishView</code>.</li>
+</ul>
+

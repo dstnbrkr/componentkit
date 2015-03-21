@@ -1,0 +1,67 @@
+<p>Because Components are often deeply nested structures, it’s rarely possible to fit them on one line. We’ve developed some best practices for indentation unique to Components code. These rules should generally <em>not</em> be applied to non-Components code.</p>
+
+<ul>
+  <li>Put a newline before <code>new</code>, so that parameters left-align instead of aligning by semicolon.</li>
+  <li>Put a newline after <code>:</code> if the parameter value stretches to multiple lines.</li>
+  <li>Consider putting a newline after <code>=</code> or <code>return</code> if it reduces nesting.</li>
+</ul>
+
+<div class="note">
+  <p>
+     These are guidelines, not ironclad rules. Feel free to ignore them on a case-by-case basis.
+  </p>
+</div>
+
+<p>This is hard to read</p>
+
+<div class="redhighlight"><pre><code class="language-objc--" data-lang="objc++"><span class="n">CKFeedHeaderComponent</span> <span class="o">*</span><span class="n">header</span> <span class="o">=</span> <span class="p">[</span><span class="n">CKFeedHeaderComponent</span> <span class="nl">newWithTitle</span><span class="p">:</span><span class="s">@&quot;Hello world&quot;</span>
+                                            <span class="nl">secondaryActionsComponent</span><span class="p">:[</span><span class="n">CKFeedSecondaryActionsComponent</span> <span class="nl">newWithUnit</span><span class="p">:</span><span class="n">unit</span>
+                                                                                                           <span class="nl">toolbox</span><span class="p">:</span><span class="n">toolbox</span><span class="p">]</span>
+                                                              <span class="nl">toolbox</span><span class="p">:</span><span class="n">toolbox</span><span class="p">];</span></code></pre></div>
+
+<p>Much better</p>
+
+<p><code>objc++
+CKFeedHeaderComponent *header =
+[CKFeedHeaderComponent
+ newWithTitle:@"Hello world"
+ secondaryActionsComponent:
+ [CKFeedSecondaryActionsComponent
+  newWithUnit:unit
+  toolbox:toolbox]
+ toolbox:toolbox];
+</code></p>
+
+<p>Within a statement, indent by only one space (not two, as you would for control flow).</p>
+
+<div class="note">
+  <p>
+     You never have to indent manually. After inserting newlines as described above, use <code>Ctrl-I</code> (Editor ▶︎ Structure ▶︎ Re-Indent) to make Xcode do the indentation work for you.
+  </p>
+</div>
+
+<h3 id="special-case">Special Case</h3>
+
+<p>As the <em>only</em> special case, we generally write <code>super newWithComponent:</code> on a single line. This is merely for convenience as <code>super</code> is a short word and <code>newWithComponent:</code> fits nicely at its side, while it works well with Xcode’s indentation. For example:</p>
+
+<p><code>objc++
+return [super newWithComponent:
+        [CKFeedHeaderComponent
+         newWithTitle:@"Hello world"
+         secondaryActionsComponent:
+         [CKFeedSecondaryActionsComponent
+          newWithUnit:unit
+          toolbox:toolbox]
+         toolbox:toolbox]];
+</code></p>
+
+<p>That’s the <em>only</em> special case. If the object is not <code>super</code> or the method is not <code>newWithComponent</code>, always put the method on a new line. For example, even if you’re writing <code>super newWithView:</code>, have a new line after <code>super</code>:</p>
+
+<p><code>objc++
+return [super
+        newWithView:{
+          [UIView class],
+          {CKComponentTapGestureAttribute(@selector(didTap:))}
+        }
+        component:component];
+</code></p>

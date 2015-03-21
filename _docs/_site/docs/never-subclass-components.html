@@ -1,0 +1,30 @@
+<p>You should always subclass <code>CKCompositeComponent</code> when creating a component. (If you need to perform advanced layout by overriding <code>computeLayoutThatFits:</code>, you may subclass <code>CKComponent</code> directly.) Don’t subclass other component classes.</p>
+
+<ul>
+  <li><strong>Subclassing is difficult to reason about.</strong> There is no <code>final</code> keyword in Objective-C, so <em>any</em> method can be overridden in a subclass. It’s impossible to read a superclass and know what is and isn’t overridden somewhere.</li>
+  <li><strong>Subclassing makes refactoring the superclass difficult.</strong> If the superclass is refactored to rename or remove a method, every subclass must be inspected to see if they were overriding the method. This is often skipped or forgotten, leading to silent bugs.</li>
+</ul>
+
+<p>For example, imagine that we’re adding a new “highlighted share” attachment. It should look just like a regular share attachment, but have a yellow background color. Don’t do this:</p>
+
+<div class="redhighlight"><pre><code class="language-objc--" data-lang="objc++"><span class="k">@implementation</span> <span class="nc">CKHighlightedShareAttachmentComponent</span> : <span class="nc">CKShareAttachmentComponent</span>
+<span class="p">-</span> <span class="p">(</span><span class="bp">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nf">backgroundColor</span>
+<span class="p">{</span>
+  <span class="c1">// This breaks silently if the superclass method is renamed.</span>
+  <span class="k">return</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">yellowColor</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="k">@end</span></code></pre></div>
+
+<p>Instead, make <code>CKShareAttachmentComponent</code> take the color as a parameter and then subclass <code>CKCompositeComponent</code>:</p>
+
+<p><code>objc++
+@implementation CKHighlightedShareAttachmentComponent : CKCompositeComponent
++ (instancetype)newWithAttachment:(CKMemStoryAttachment *)attachment
+{
+  return [super newWithComponent:
+          [CKShareAttachmentComponent
+           newWithAttachment:attachment
+           backgroundColor:[UIColor yellowColor]]];
+}
+@end
+</code></p>

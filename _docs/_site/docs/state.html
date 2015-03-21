@@ -1,0 +1,72 @@
+<p>So far we’ve been loosely inspired by <a href="http://facebook.github.io/react/">React</a>. If you’re familiar with React, you’ll know that React components have two elements:</p>
+
+<ul>
+  <li><strong>props</strong>: passed from the parent. These roughly correspond to our parameters passed to the <code>+new</code> method.</li>
+  <li><strong>state</strong>: internal to the component, this holds implementation details that the parent should not have to know about. The canonical example is whether the story should be rendered fully, or truncated with a “Continue Reading…” link. This is a detail the parent component should not have to manually manage.</li>
+</ul>
+
+<p>Figuring out the difference between these two can be tricky at first. <a href="http://facebook.github.io/react/blog/2013/11/05/thinking-in-react.html">Thinking in React</a> is a really helpful blog post on this topic.</p>
+
+<p>Just like React, <code>CKComponent</code> has state.</p>
+
+<p><code>objc++
+@interface CKComponent
+- (void)updateState:(id (^)(id))updateBlock
+  animationDuration:(CGFloat)animationDuration;
+@end
+</code></p>
+
+<p>Let’s make a simple example of using state for the “Continue Reading…” link.</p>
+
+<p>```objc++
+@implementation CKFeedMessageComponent</p>
+
+<ul>
+  <li>
+    <p>(id)initialState
+{
+return @NO;
+}</p>
+  </li>
+  <li>
+    <p>(instancetype)newWithMessage:(NSAttributedString *)message
+{
+CKComponentScope scope(self);
+NSNumber *state = scope.state();
+return [super newWithComponent:
+        [CKRichTextComponent
+         newWithAttributedString:message
+         style:{
+           // 0 means unlimited
+           .maximumNumberOfLines = [state boolValue] ? 0 : 5
+         }]];
+}</p>
+  </li>
+  <li>
+    <p>(void)didTapContinueReading:(id)sender
+{
+[self updateState:^(id oldState){
+  return @YES;
+} animationDuration:kCKComponentAnimationDurationNone];
+}</p>
+  </li>
+</ul>
+
+<p>@end
+```
+That’s all there is to it. Some nice attributes:</p>
+
+<ul>
+  <li>Continue Reading state is completely hidden from parent components and controllers. They don’t need to know about it or manage it.</li>
+  <li>State changes can be coalesced or arbitrarily delayed for performance reasons. We can easily compute the updated component off the main thread when possible/desired.</li>
+</ul>
+
+<h1 id="but-this-violates-mvc">But this violates MVC!</h1>
+
+<p>Some might argue this violates MVC. A view knows about state and knows how to respond to a user action!</p>
+
+<p>This is not entirely true. The component does not know how to update its actual associated view; updating a view piecemeal is not allowed. The component <em>does</em> know how to inform its parent controller that a change has occurred via <code>CKComponentScope</code>.</p>
+
+<p>If the parent controller were not monitoring the state object for updates, then the Continue Reading link would do nothing.</p>
+
+<p><em>State is just a generalized way of hiding implementation details from top-level controllers.</em> Controllers still manage the flow of re-rendering a view.</p>

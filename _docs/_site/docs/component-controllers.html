@@ -1,0 +1,34 @@
+<p>Remember the analogy made in the <a href="docs/introduction">Introduction</a>: components are like a stencil. They are an immutable snapshot of how a view should be configured at a given moment in time.</p>
+
+<p>Every time something changes, an entirely new component is created and the old one is thrown away. This means components are <strong>short-lived</strong>, and their lifecycle is not under your control.</p>
+
+<p>But sometimes, you do need an object with a longer lifecycle. <em>Component controllers</em> fill that role:</p>
+
+<ul>
+  <li><a href="docs/components-cant-be-delegates">Components cant be delegates</a> because they are short-lived, but controllers can be delegates.</li>
+  <li>Network downloads take time to complete; the component may have been recreated by the time the download completes. The controller can handle the callback.</li>
+  <li>You may need an object to own some other object that should have a long lifetime.</li>
+</ul>
+
+<h2 id="creating-controllers">Creating Controllers</h2>
+
+<ul>
+  <li>Controllers are instantiated automatically by the infrastructure. Don’t try to create them manually.</li>
+  <li>Define a controller by simply creating a subclass of <code>CKComponentController</code> that has the same name as your component plus “Controller”.</li>
+  <li>Your component must have a <code>CKComponentScope</code> to have a controller. (If you forget, an assertion will fail.)</li>
+  <li>Any <code>CKComponentAction</code> methods handled by your component can also be handled by the controller.</li>
+</ul>
+
+<h2 id="controller-flow">Controller Flow</h2>
+
+<p>{pxlcld/lKzm, retina=pxlcld/lKzn}</p>
+
+<ol>
+  <li>The component controller is <strong>created</strong> with the first component.</li>
+  <li>When the component is updated, a new instance is generated…</li>
+  <li>But the component controller stays the same.</li>
+</ol>
+
+<h2 id="communication-between-component-and-controller">Communication between Component and Controller</h2>
+
+<p>To pass data from a component to its controller, expose a <code>@property</code> on the component in a class extension. The controller can read those properties in <code>didUpdateComponent</code>.</p>

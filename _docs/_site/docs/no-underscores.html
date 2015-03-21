@@ -1,0 +1,15 @@
+<p>Don’t underscore-prefix private helper methods or <code>static</code> C functions.</p>
+
+<div class="redhighlight"><pre><code class="language-objc--" data-lang="objc++"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">_buttonAction:</span><span class="p">(</span><span class="n">CKComponent</span> <span class="o">*</span><span class="p">)</span><span class="nv">sender</span>
+<span class="p">{</span>
+  <span class="n">_logEvent</span><span class="p">(</span><span class="s">@&quot;button tapped&quot;</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+<p>We <a href="docs/never-subclass-components">discourage subclassing components</a>, so we don’t need to worry about distinguishing public and private methods or colliding with methods in the superclass.</p>
+
+<p><code>objc++
+- (void)buttonAction:(CKComponent *)sender
+{
+  logEvent(@"button tapped");
+}
+</code></p>

@@ -1,0 +1,37 @@
+<p>Conceptually there is a seam between the rest of the application (imperative code that mutates state) and the top-level component (below which everything is functional and immutable).</p>
+
+<p>This seam is managed by the <code>CKComponentLifecycleManager</code>.</p>
+
+<p>```objc++
+typedef CKComponent *(^CKComponentFactory)(id model, CKComponentState *state);</p>
+
+<p>@interface CKComponentLifecycleManager</p>
+
+<p>/**
+ @param model The state of the outside world. Passed to the factory.
+ @param componentFactory A block that generates a component.
+ */
+- (instancetype)initWithModel:(id)model
+             componentFactory:(CKComponentFactory)componentFactory;</p>
+
+<p>/**
+ Call this when the the state of the outside world changes.
+ This asynchronously recomputes the component with the new model, then mounts it.
+ */
+- (void)replaceModel:(id)newModel;</p>
+
+<ul>
+  <li>
+    <p>(void)mountInView:(UIView *)view;</p>
+  </li>
+  <li>
+    <p>(void)unmount;</p>
+  </li>
+</ul>
+
+<p>@end
+```</p>
+
+<p>This object also encapsulates the asynchronous computation of updated components on a background thread.</p>
+
+<p>Note that React has a similar seam when integrating with external, non-reactive Javascript. It has an almost-identical API called <a href="http://facebook.github.io/react/docs/component-api.html#setprops"><code>replaceProps:</code></a> (our <code>replaceModel:</code>).</p>

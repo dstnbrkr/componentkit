@@ -1,0 +1,9 @@
+<p>Objects passed into components should be immutable.</p>
+
+<p><code>+new</code> is called on a background thread. It can even be called on multiple threads simultaneously for the same parameters.</p>
+
+<p>If you pass in mutable objects with <code>nonatomic</code> properties, you will introduce thread safety crashes.</p>
+
+<p>Even if you pass in mutable objects that have only <code>atomic</code> properties, you are introducing a logic race condition. Rendering the exact same object twice could result in different outputs, which doesn’t make any sense!</p>
+
+<p>TODO: Remodel (Value Objects)</p>

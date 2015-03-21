@@ -1,0 +1,15 @@
+<p>Avoid doing this:</p>
+
+<div class="redhighlight"><pre><code class="language-objc--" data-lang="objc++"><span class="k">@implementation</span> <span class="nc">CKPersonComponent</span>
+<span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithPerson:</span><span class="p">(</span><span class="n">CKMemPerson</span> <span class="o">*</span><span class="p">)</span><span class="nv">person</span>
+<span class="p">{</span>
+  <span class="k">return</span> <span class="p">[</span><span class="nb">super</span> <span class="nl">newWithComponent</span><span class="p">:</span>
+          <span class="p">[</span><span class="n">CKComponent</span>
+           <span class="nl">newWithView</span><span class="p">:{[</span><span class="n">CKPersonView</span> <span class="k">class</span><span class="p">],</span> <span class="p">...}</span>
+           <span class="nl">size</span><span class="p">:{.</span><span class="n">width</span> <span class="o">=</span> <span class="n">Percent</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)}]];</span>
+<span class="p">}</span>
+<span class="k">@end</span></code></pre></div>
+
+<p>Instead, favor an approach using <code>size:{}</code> and requiring the parent of <code>CKPersonComponent</code> to specify its width. For example, if the parent is a <code>CKStackLayoutComponent</code>, use <code>CKStackLayoutAlignItemsStretch</code> to stretch the component to full width.</p>
+
+<p>This keeps components reusable in situations where you don’t want them to be 100% of the parent’s width.</p>

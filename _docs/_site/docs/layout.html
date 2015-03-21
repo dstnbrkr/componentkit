@@ -1,0 +1,26 @@
+<p><code>UIView</code> instances store position and size in their <code>center</code> and <code>bounds</code> properties. As constraints change, Core Animation performs a layout pass to call <code>layoutSubviews</code>, asking views to update these properties on their subviews.</p>
+
+<p><code>CKComponent</code> instances do not have any size or position information. Instead, the infrastructure calls the <code>layoutThatFits:</code> method with a given size constraint and the component must <em>return</em> a structure describing both its size, and the position and sizes of its children.</p>
+
+<p>```objc++
+struct CKComponentLayout {
+  CKComponent *component;
+  CGSize size;
+  std::vector<ckcomponentlayoutchild> children;
+};</ckcomponentlayoutchild></p>
+
+<p>struct CKComponentLayoutChild {
+  CGPoint position;
+  CKComponentLayout layout;
+};
+```</p>
+
+<p>You can implement <code>computeLayoutThatFits:</code> manually if needed, but generally it’s easier to use “layout components”. These provide common layouts like stack, overlay, inset, center, and so on.</p>
+
+<h1 id="stack-layouts">Stack Layouts</h1>
+
+<p><code>CKStackLayoutComponent</code> is important enough to cover in some detail. Its semantics are based on the <a href="http://www.w3.org/TR/css3-flexbox/">CSS flexbox</a> specification, though simplified in some areas.</p>
+
+<p>This provides a great deal of power. While iOS Feed has many complicated layouts, almost all of them are implemented as stack layouts. This means there is almost no layout math required.</p>
+
+<p>It also means that if you’re struggling to figure out how to configure a <code>CKStackLayoutComponent</code>, you might want to consult a CSS expert!</p>

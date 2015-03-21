@@ -1,0 +1,56 @@
+---
+title: Views
+layout: docs
+permalink: /docs/views.html
+---
+Create components using the `newWithView:size:` class method:
+
+```objc++
++ (instancetype)newWithView:(CKComponentViewConfiguration)view
+                       size:(CKComponentSize)size;
+```
+
+It's important to note that you don't pass a `UIView` directly, but a `CKComponentViewConfiguration`. What's that?
+
+```objc++
+struct CKComponentViewConfiguration {
+  CKComponentViewClass viewClass;
+  std::unordered_map<CKComponentViewAttribute, id> attributes;
+};
+```
+
+The first field is a view class. Ignore `CKComponentViewClass` for now—in most cases you just pass a class like `[UIImageView class]` or `[UIButton class]`.
+
+The second field holds a map of attributes to values: font, color, background image, and so forth. Again, ignore `CKComponentViewAttribute` for now; you can usually use a `SEL` as the attribute. If you notice, the values in the map are of type `id`, so if you want to pass in primitive types like `BOOL`, you have to wrap them into a `NSNumber` using `@(value)` and the infrastructure will unwrap them.
+
+Let's put one together:
+
+```objc++
+[CKComponent newWithView:{
+  [UIImageView class],
+  {
+    {@selector(setImage:), image},
+    {@selector(setContentMode:), @(UIViewContentModeCenter)} // Wrapping into an NSNumber
+  }
+}];
+```
+
+That's all there is to it. The infrastructure does this for us:
+
+- Automatically creates or reuses a `UIImageView` when the component is mounted
+- Automatically calls `setImage:` and `setContentMode:` with the given values
+- Skips calling `setImage:` or `setContentMode:` if the value is unchanged between two updates — the most common case when updating a tree.
+
+# Viewless Components
+
+Often there are logical components that don't need a corresponding view in the view hierarchy. `CKUFIComponent` doesn't really need a view; it only needs to position various subviews inside a designated area. Just pass `{}` for the view configuration and no view is created:
+
+```objc++
+[CKComponent newWithView:{} size:{}]
+```
+
+(You can also just use `+new` directly, which uses this as the default.)
+
+# Advanced Views
+
+This is sufficient for most cases, but there is considerably more power when you need it. See [advanced-views](docs/advanced-views) if you want to learn more.

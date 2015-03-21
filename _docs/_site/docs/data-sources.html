@@ -1,0 +1,340 @@
+<h2 id="introduction---overview">Introduction - Overview</h2>
+
+<p>Components really shine through when used along with a <code>UICollectionView</code> and a <code>UITableView</code> :</p>
+
+<ul>
+  <li>Their declarative nature makes it so you don’t have to worry about reuse anymore! <a href="http://www.objc.io/issue-22/facebook.html">Adam Ernst’s article in objc.io</a> explains in great length how we achieve automatic and heavily optimized recycling in components.</li>
+  <li>Also, as components generation and layout being a succession of pure functions working with immutable data, moving those operations along with other expensive ones (e.g image decoding) is trivial.</li>
+</ul>
+
+<p>ComponentKit comes with standard datasources that can power your <code>UICollectionView(s)</code> or <code>UITableView(s)</code>.</p>
+
+<h3 id="ckcomponentdatasource">CKComponentDataSource</h3>
+
+<p>CKComponentDataSource is the main class that will :</p>
+
+<ul>
+  <li>Takes in a changeset which contains commands and models (e.g: “Insert Item at index 0 in section 1 with ModelA”, “Update Item at index 1 in section 0 with modelB”).</li>
+  <li><strong>Generate and Layout asynchronously and in the background</strong> the components associated to those changes.</li>
+  <li>Output a changeset along with handles to the generated components so that it can be easily used with a <code>UITableView</code> or a <code>UICollectionView</code></li>
+</ul>
+
+<picture>
+### CKComponentCollectionViewDataSource
+
+CKComponentCollectionViewDataSource is a thin wrapper around CKComponentDataSource that implements the `UICollectionViewDataSource` API. As you can see in the next section, it can be used to bootstrap a collection view using datasource in very few lines of code.
+
+
+## Build a Collection view using components
+
+We will assume a simple setup with a `UIViewController` holding a `UICollectionView` with a regular `UICollectionViewFlowLayout`.
+### Setup
+#### Component Provider
+The datasource creates the component corresponding to your data, to do so it needs to know how to transform some immutable data into a component tree. This transformation should be defined as a class method on a class conforming to CKComponentProviding that we will then pass as the component provider.
+
+Let's make our UIViewController be the component provider her.
+
+	@interface MyController <ckcomponentproviding>
+	...
+	@end
+
+	@implementation MyController
+	...
+	+ (CKComponent *)componentForModel:(id<nsobject>)model context:(id<nsobject>)context {
+		return [MyComponent newWithModel:model context:context];
+	}
+	...
+
+- **Why the class Method and not a block?** The transform model-&gt;component should be pure, but blocks makes it very easy to capture mutable state that could introduce side effects in the system. Using a class method allows to better enforce the constraint of purity from an API standpoint.
+- ** What is this context ? ** The context is whatever you might want to pass from the "external world" to the "component world" TODO:detail (good practice don't access global state, context)
+
+#### Create your datasource
+
+Ok, so now we have our UIViewController as the component provider, let's create our datasource and attach the collection view to it.
+
+	- (void)viewDidLoad {
+	...
+	self.dataSource = [[CKCollectionViewDataSource alloc] initWithCollectionView:self.collectionView componentProvider:[self class] componentProvider:[self class] context:context cellConfigurationFunction:...];
+	}
+
+
+Note that we pass the context in the initializer, it is the same context that you will then get passed into `+ (CKComponent *)componentForModel:(id<nsobject>)model context:(id<nsobject>)context` every time a component needs to get computed.
+
+### Add/Modify content in the collection view
+
+#### Changeset API
+Using CKCollectionViewDataSource you never modifies the collection view directly but send commands to the datasource that will then apply it to the collection view.
+
+Let's add a section at index 0 and two items in this section at index 0 and 1.
+
+	- (void)viewDidAppear {
+		...
+		CKComponentDataSourceChangeset changeset;
+		changeset.sections.insert(0);
+		changeset.items.insert({0,0}, firstModel);
+		changeset.items.insert({0,1}, secondModel);
+		[self.dataSource enqueueChangeset:changeset constrainedSize:{{0,0}, {50, 50}}];
+	}
+
+
+Later on we can update our first iterm with an updated model.
+
+	...
+	CKComponentDataSourceChangeset changeset;
+	changeset.items.update({0,0}, udpatedFirstModel);
+	[self.dataSource enqueueChangeset:changeset constrainedSize:{{0,0}, {50, 50}}];
+	...
+
+
+You can also remove items and sections through this changeset API, more details in the section TODO...
+
+#### Layout
+
+As you can see above we pass a constrained size every time a changeset is enqueued, this constrained size is used internally to layout the components and compute their final size. The form of the constrained size is: `{{minWidth, minHeight},{maxWidth, maxHeight}}`.
+In the above code the minimum width and height is 0pt and the maximum width and height is 50pt, the components will be layed out and get a size withing those constraints.
+
+Let's see how we can use those sizes with our `UICollectionViewLayout`. As we said, for this example we have a `UICollectionViewFlowLayout`, let's also assume that our view controller is the delegate of the flow layout.
+
+We will size each item so that it matches the size of their computed component.
+
+```objc++
+	- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout
+                  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+  		return [self.dataSource sizeForItemAtIndexPath:indexPath];
+	}
+```
+
+Pretty simple right and this logic can apply to any `UICollectionViewLayout`, size your components using the top level constraint and then regular component layout. Then in your `UICollectionViewLayout` position your items and size them using the computed component sizes.
+
+### Handle actions
+
+Time to interact with those items now, nothing special here you can use the regular selection APIs. Let's say our models sometimes have an URL that we want to open every time the user taps on an item.
+
+```objc++
+	- (void)dataSource:(CKComponentCollectionViewDataSource *)dataSource didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+	{
+  		MyModel *model = (MyModel *)[self.dataSource modelForItemAtIndexPath:indexPath];
+  		NSURL *navURL = model.url;
+  		if (navURL) {
+  			[[UIApplication sharedApplication] openURL:navURL];
+  		}
+  	}
+```
+
+Note: The datasource is the source of truth for your collection view, if you have to retrieve a model corresponding to an indexPath always use `- (id<nsobject>)mdoelForItemAtIndexPath`. TODO: develop or maybe extract in another GOTCHA section.
+
+You could also handle actions at the component level and pass in your context handlers: TODO: link to the action handling section
+
+## Usage
+
+### Changeset API
+
+Changesets are how you interact with the datasource, they allow you to "enqueue" sets of commands and have them processed by the datasource.
+
+
+These commands can be seen as a sentence with three parts :
+
+1. **action** (insert/delete/udpate for items, insert/delete for sections)
+2. **position specifier** (indexPath for items, index for sections)
+3. **model** (that will be used to compute the components)
+
+Here is some sample code, showing how to create a changeset - As you can see changesets are a c++ structure.
+
+```objc++
+Input::Items items;
+// Insert an item at index 0 in section 0 and compute for @"Hello"
+items.insert({0, 0}, @"Hello");
+// Update the item at index 1 in section 0 and update it with the component computed for @"World"
+items.update({0, 1}, @"World");
+// Delete the itm at index 2 in section 0, no need for a model here :)
+items.delete({0, 2});
+
+Sections sections;
+sections.insert(0);
+sections.insert(2);
+sections.insert(3);
+
+[datasource enqueueChangeset:{sections, items}];
+```
+#### Order of application
+
+The order in which commands are added to the changeset doesn't define the order in which they will internally be applied to the `CKComponentDataSource` and then to a UITableView or UICollectionView. The order of applciation follow the same rules as for batch updates on UITableView or UICollectionView :
+
+- Deletions and Updates are applied first using the current index space
+- Insertions are then applied in teh index post deletions and updates (updates obviously won't modify the index space though)
+
+You can consult the [following section](https://developer.apple.com/library/prerelease/ios/documentation/UserExperience/Conceptual/TableView_iPhone/ManageInsertDeleteRow/ManageInsertDeleteRow.html) in the apple documentation to get more information.
+
+### The context
+
+TODO or include with collectionView ?
+
+## Good practices
+### Lifecycle
+
+The lifecycle of the datasource should match the lifecyle of the collection view or table view it is used with. You might otherwise end up with the content of your list view being out of sync with the internal state of the datasource and this most probably will cause a crash eventually.
+
+### Get object
+
+## Advanced topics
+
+## Detailed description of the datasource
+
+Here is how the
+![Overwiew of the datasource](/static/ck_datasource.png)
+
+1. A changeset is enqueued in `CKComponentDataSource` (maybe proxied by CKCollectionViewDataSource or another adapter), the CKComponentDataSource updates its internal input state.
+2. Changes asynchronously enqueued in the preparation queue and processed in the background. Each model in the changeset will get it's component tree generated and laid out by calling the `componentForModel:` function on the componentProvider.
+3. Once the components are computed the output changeset is processed
+   -
+2. The datasource computes the components corresponding to the changeset, using a `componentProvider` which is a conceptually a function taking a model in and returning a corresponding tree of components. *e.g it will compute the component associated to the immutable model A*.
+3. The datasource both updates it's internal state (3-1), a sectioned array representing the content of the list view and apply changes to the list view (3-2). *e.g reload the row at section 0 and index 3*.
+4. Depending on the changes applied the list view asks the datasource for cells. *e.g The list view will ask for a cell at section 0 and row 3 and the datasource will return a cell with the components generated from Model A mounted on*.
+5. **To query a model corresponding to a row in the table view you must use the read interface**, only through this interface you are guaranteed that you are accessing a state that is in sync with the list view.
+
+## How to use direclty CKComponentDataSource
+
+### Example with a tableView
+
+`ComponentsTableViewController.h`
+
+```objc++
+
+#import &lt;UIKit/UIKit.h&gt;
+
+@interface  ComponentsTableViewController : UIViewController
+
+
+@end
+
+```
+
+`ComponentTableViewController.mm`
+
+```objc++
+
+#import "ComponentTableViewController.h"
+
+using namespace CK::ArrayController;
+
+@interface SimpleTableViewController () &lt;
+CKComponentProvider,
+CKComponentDataSourceDelegate,
+UITableViewDataSource,
+UITableViewDelegate
+&gt;
+@end
+
+@implementation ComponentTableViewController
+{
+  UITableView *_tableView;
+  CKComponentDataSource *_componentDataSource;
+  CKSizeRange _constrainedSize;
+}
+
+- (void)loadView
+{
+  _tableView = [[UITableView alloc] init];
+  [self setView:_tableView];
+}
+
+- (void)viewDidLoad
+{
+  [super viewDidLoad];
+  [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kReuseIdentifier];
+  _tableView.dataSource = self;
+  _tableView.delegate = self;
+  _componentDataSource = [[CKComponentDataSource alloc] initWithComponentProvider:[self class]
+                                                                          context:nil
+                                                                          decider:[[CKComponentConstantDecider alloc] initWithEnabled:@YES]];
+  _componentDataSource.delegate = self;
+  _componentDataSource.state = CKSuspensionControllerStateNotSuspended;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+  [super viewDidAppear:animated];
+}
+
+#pragma mark - UITableViewDatasource
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+  CKComponentDataSourceOutputItem *outputItem = [_componentDataSource objectAtIndexPath:indexPath];
+  CKComponentHostingTableViewCell *cell = [_tableView dequeueReusableCellWithIdentifier:kReuseIdentifier];
+  CKComponentLifecycleManager *lifecycleManager = [outputItem lifecycleManager];
+  [lifecycleManager attachToView:[cell componentContainerView]];
+  return cell;
+}
+
+#pragma mark - UITableViewDelegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+  return [[[_componentDataSource objectAtIndexPath:indexPath] lifecycleManager] size].height;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+  return [_componentDataSource numberOfSections];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+  return [_componentDataSource numberOfObjectsInSection:section];
+}
+
+#pragma mark - CKComponentDatasourceDelegate
+
+- (void)componentDataSource:(CKComponentDataSource *)componentDataSource
+changesetIncludesSizeChange:(BOOL)changesetIncludesSizeChange
+        changesetApplicator:(fb_changeset_applicator_t)changesetApplicator
+                     ticker:(fb_ticker_block_t)ticker
+{
+  [_tableView beginUpdates];
+  const auto &amp;changeset = changesetApplicator();
+  applyChangesetToTableView(changeset, _tableView);
+  [_tableView endUpdates];
+  ticker();
+}
+
+#pragma mark - CKComponentProvider
+
++ (CKComponent *)componentForModel:(NSString *)model context:(id<nsobject>)context
+{
+  // TODO
+}
+
+static void applyChangesetToTableView(const Output::Changeset &amp;changeset, UITableView *tableView)
+{
+  Sections::Enumerator sectionsEnumerator = ^(NSIndexSet *sectionIndexes, CKArrayControllerChangeType type, BOOL *stop) {
+    if (type == CKArrayControllerChangeTypeDelete) {
+      [tableView deleteSections:sectionIndexes withRowAnimation:UITableViewRowAnimationFade];
+    }
+    if (type == CKArrayControllerChangeTypeInsert) {
+      [tableView insertSections:sectionIndexes withRowAnimation:UITableViewRowAnimationFade];
+    }
+  };
+
+  Output::Items::Enumerator itemEnumerator =
+  ^(const Output::Change &amp;change, CKArrayControllerChangeType type, BOOL *stop) {
+    NSIndexPath *indexPath = change.indexPath.toNSIndexPath();
+    if (type == CKArrayControllerChangeTypeDelete) {
+      [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }
+    if (type == CKArrayControllerChangeTypeInsert) {
+      [tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }
+    if (type == CKArrayControllerChangeTypeUpdate) {
+      [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }
+  };
+
+  changeset.enumerate(sectionsEnumerator, itemEnumerator);
+}
+
+@end
+
+```
+</nsobject></nsobject></nsobject></nsobject></nsobject></nsobject></ckcomponentproviding></picture>

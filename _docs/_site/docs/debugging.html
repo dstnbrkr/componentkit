@@ -1,0 +1,31 @@
+<p>Components generally uses generic views such as <code>UIButton</code>, <code>UIImageView</code>, etc. under the hood. Hence, when you run a command like <code>pviews</code> you’re likely to get a very generic hierarchy that doesn’t point you to the component you might want to know more about. The following is the output of running <code>pviews</code> for components.</p>
+
+<p>TODO: Stack Trace</p>
+
+<p>As you can see, this is very generic and it is almost impossible to get back to the component from this view output. Hence, we have created a set of debugging tools that help you achieve that simply.</p>
+
+<h1 id="pcomponents">pcomponents</h1>
+
+<p><code>pcomponents</code> allows you to print the component hierarchy, including layout information like position and size. It is designed to be analogous to how <code>pviews</code> works. It is the easiest way to reason about where your layout might have gone wrong while looking at the component rendered on screen. It can generally be called just by saying <code>pco</code> in the debug console.</p>
+
+<p>TODO: add a stack trace.</p>
+
+<p>Optionally takes in a view from where to begin its search and the search can be upwards as well, as shown below… it traverses up to find the first view on which there’s a component hierarchy attached.</p>
+
+<p>pcomponents -u 0x81901e30</p>
+
+<p>TODO: add a stack trace</p>
+
+<div class="note">
+  <p>
+     Generally, if you run <code>pcomponents</code> you will be presented with multiple component hierarchies, one each for each visible cell. To get the component hierarchy for the cell you're interested in, type `taplog` on the console and click on a view in the cell you're interested in - <code>taplog</code> would give you the memory address of that view, which you can copy. Then you can use <code>pcomponents -u &lt;Address of View&gt;</code> to get the hierarchy for the cell you are interested in.
+  </p>
+</div>
+
+<h1 id="dcomponents">dcomponents</h1>
+
+<p><code>dcomponents</code> sets up debug views which are phantom views for components which originally don’t have any views. Looking through the view hierarchy in Reveal gives a visual manifestation to layout and can be useful for debugging. <code>dcomponents</code> gives a sense of the component hierarchy in the view hierarchy itself, since the phantom views generated have the name of their backing components.</p>
+
+<p>To set the mode, use <code>dc -s</code>. To unset, <code>dc -u</code>. Again, this is based on the prefix matching provided by LLDB.</p>
+
+<p>TODO: pxlcld/lw09</p>

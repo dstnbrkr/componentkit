@@ -1,0 +1,58 @@
+<h1 id="what-is-a-scope">What is a scope</h1>
+
+<p>Declaring a scope in a component means “this component has some state”. There are 2 ways to have a state in components: either by having a state (sic) or by having a controller.</p>
+
+<p>The same way components have tree structure, component-state’s have a tree structure as well. It is essentially the same tree, except for components which don’t have state which are skipped.</p>
+
+<p>Now while components are short-lived and get trashed every time the cell is updated, states are long-lived. So states need a way to be preserved before and after an update. Hence the scope: the scope is a way to define how the state should be preserved through an update.</p>
+
+<h1 id="how-to-define-a-scope">How to define a scope</h1>
+
+<p><code>objc++
+CKComponentScope scope(self);
+</code></p>
+
+<p>Wow. That was easy. But what does that mean? This means :</p>
+
+<ul>
+  <li>My component has state</li>
+  <li>My component’s class name is enough to track the state</li>
+</ul>
+
+<p>During an update, a complete new tree of component will be created. If a component with the same class appears, then the state will be passed from the old component to the new component. </p>
+
+<p>But what happened if they are multiple component with the same class? Well it is not going to work. You need to define additional information to pass on the state from the old component to the new component.</p>
+
+<h1 id="how-to-define-a-scope-poorly">How to define a scope poorly</h1>
+
+<p>Here is a bad way to do it:</p>
+
+<div class="redhighlight"><pre><code class="language-objc--" data-lang="objc++"><span class="n">CKComponentScope</span> <span class="nf">scope</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">rand</span><span class="p">());</span></code></pre></div>
+
+<p>This essentially means that the scope will be more or less trashed every time you update the component because the integer will never match. </p>
+
+<p>Here is another bad way to do it:</p>
+
+<div class="redhighlight"><pre><code class="language-objc--" data-lang="objc++"><span class="n">CKComponentScope</span> <span class="nf">scope</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">dataModel</span><span class="p">.</span><span class="n">url</span><span class="p">);</span></code></pre></div>
+
+<p>This will attempt to match the URLs related to your model. But if the URL changes for any reason, you will lose your state and your controller.</p>
+
+<h1 id="how-to-define-a-scope-properly">How to define a scope properly</h1>
+
+<p>You can define the component relative to its position in the tree. This makes sure that if the datamodel changes, your controller will be maintained from one model to another. The drawback is that the position has usually to be passed from the parent to the child, which means that the child is somehow aware of where it is, which is not great.</p>
+
+<p><code>objc++
+CKComponentScope scope(self, @"Footer");
+</code></p>
+
+<p>or </p>
+
+<p><code>objc++
+CKComponentScope scope(self, @4);
+</code></p>
+
+<p>You can define the component relative to its datamodel. Now the problem here is that if your component gets updated with a slightly different datamodel, the state and the controller might get dropped.</p>
+
+<p><code>objc++
+CKComponentScope scope(self, datamodel.videoID);
+</code></p>

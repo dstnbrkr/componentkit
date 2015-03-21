@@ -1,0 +1,23 @@
+<p>The base <code>CKComponent</code> class is quite simple. Leaving out a few methods, it looks like this:</p>
+
+<p>```objc++
+@interface CKComponent : UIResponder</p>
+
+<p>/// Returns a new component.
++ (instancetype)newWithView:(CKComponentViewConfiguration)view
+                       size:(CKComponentSize)size;</p>
+
+<p>/// Returns a layout for the component and its children.
+- (CKComponentLayout)layoutThatFits:(CKSizeRange)constrainedSize
+                         parentSize:(CGSize)parentSize;</p>
+
+<p>@end
+```</p>
+
+<p>We’ll get to these two methods in a moment. For now, note:</p>
+
+<ul>
+  <li>Components are totally immutable. For example, there is no <code>addSubcomponent:</code> method.</li>
+  <li>Components can be created on any thread. This keeps all sizing and construction operations off the main thread.</li>
+  <li>The Objective-C idiom <code>+newWith...</code> is used for instantiation instead of the more typical <code>+alloc/-initWith..</code>. This is mainly for brevity. Getting rid of noise is important to keep components code readable.</li>
+</ul>
