@@ -4,40 +4,55 @@ layout: docs
 permalink: /docs/avoid-excessive-branching.html
 ---
 
-Avoid excessive branching in component code. Components are best read top-down and any branching introduces complications in understanding the layout. If you find yourself branching too much, consider separating your component into smaller components and composing them. 
+Avoid excessive branching in component code; it hurts readability.
 
-TODO: Examples of code smell
+{% highlight objc++ cssclass=redhighlight %}
++ (instancetype)newWithArticle:(Article *)article
+{
+  CKComponent *headerComponent;
+  if (article.featured) {
+    headerComponent = [CKFeaturedArticleHeaderComponent newWithArticle:article];
+  } else {
+    headerComponent = [CKRegularArticleHeaderComponent newWithArticle:article];
+  }
 
-# Branching Strategy for iPad 
+  UIEdgeInsets insets = {10, 10, 10, 10};
+  CGFloat imageSize = 20;
+  if (iPad) {
+    insets = {20, 20, 20, 20};
+    imageSize = 40;
+  }
 
-There are generally two situations for iPad: either the component is going to render similarly on both iPhone or iPad, or render completely differently.
+  return [super newWithComponent:
+          [CKStackLayoutComponent
+           newWithView:{}
+           size:{}
+           style:{}
+           children:{
+             {headerComponent},
+             {[CKArticleTextComponent
+               newWithArticle:article 
+               insets:insets
+               imageSize:imageSize]},
+           }]]
+}
+{% endhighlight %}
 
-## Similar 
-
-TODO: Add example
-
-In this case you should generally share the overall layout and introduce `[CKDevice isPad]` checks in the 1-2 places that it is needed. Generally these end up being inline checks using a ternary operator. For example
+If you find yourself branching too much, consider separating your component into smaller components and composing them.
 
 ```objc++
-[CKInsetComponent
- newWithInsets:[CKDevice isPad] ? UIEdgeInsetsMake(0, 0, 8.0, 9.0) : UIEdgeInsetsMake(0, 0, 3.0, 4.0)
- component: ...]
-```
-
-## Different 
-
-TODO: Add example
-
-If you're using `[CKDevice isPad]` checks in more than 2-3 places, it's preferable to completely separate the iPhone and iPad implementations of the component structure and branch **only once**. Avoid branching on `[CKDevice isPad]` checks in helper functions.
-
-```objc++
-if ([CKDevice isPad]) {
-  // iPad rendering
-} else {
-  // iPhone rendering
++ (instancetype)newWithArticle:(Article *)article
+{
+  return [super newWithComponent:
+          [CKStackLayoutComponent
+           newWithView:{}
+           size:{}
+           style:{}
+           children:{
+             // Encapsulates the choice of Featured or Regular header:
+             {[CKArticleHeaderComponent newWithArticle:article]},
+             // Encapsulates insets and image size:
+             {[CKArticleBodyComponent newWithArticle:article]},
+           }]]
 }
 ```
-
-# Reasoning 
-
-Code tends to accumulate a lot of these device based checks over time. Having a lot of iPad checks in various places makes the code paths difficult to reason about between iPhone and iPad. There's much more value in being able to read code top down for the iPhone case and separately for the iPad case. Legacy attachment controllers (such as `CKLinkShareAttachmentController`) are proof of the bad situation that results when we use too many device based checks.
