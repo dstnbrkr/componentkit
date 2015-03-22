@@ -19,7 +19,7 @@ struct CKComponentViewConfiguration {
 };
 ```
 
-The first field is a view class. Ignore `CKComponentViewClass` for now—in most cases you just pass a class like `[UIImageView class]` or `[UIButton class]`.
+The first field is a view class. Ignore `CKComponentViewClass` for now — in most cases you just pass a class like `[UIImageView class]` or `[UIButton class]`.
 
 The second field holds a map of attributes to values: font, color, background image, and so forth. Again, ignore `CKComponentViewAttribute` for now; you can usually use a `SEL` as the attribute. If you notice, the values in the map are of type `id`, so if you want to pass in primitive types like `BOOL`, you have to wrap them into a `NSNumber` using `@(value)` and the infrastructure will unwrap them.
 
@@ -43,7 +43,7 @@ That's all there is to it. The infrastructure does this for us:
 
 # Viewless Components
 
-Often there are logical components that don't need a corresponding view in the view hierarchy. `CKUFIComponent` doesn't really need a view; it only needs to position various subviews inside a designated area. Just pass `{}` for the view configuration and no view is created:
+Often there are logical components that don't need a corresponding view in the view hierarchy. For example a `CKStackLayoutComponent` often doesn't need to have a view; it only needs to position various subviews inside a designated area. In such situations, just pass `{}` for the view configuration and no view is created. For example:
 
 ```objc++
 [CKComponent newWithView:{} size:{}]
@@ -53,4 +53,4 @@ Often there are logical components that don't need a corresponding view in the v
 
 # Advanced Views
 
-This is sufficient for most cases, but there is considerably more power when you need it. See [advanced-views](docs/advanced-views) if you want to learn more.
+This is sufficient for most cases, but there is considerably more power when you need it. See [advanced-views](advanced-views.html) if you want to learn more.
