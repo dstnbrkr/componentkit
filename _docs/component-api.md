@@ -21,6 +21,6 @@ The base `CKComponent` class is quite simple. Leaving out a few methods, it look
 
 We'll get to these two methods in a moment. For now, note:
 
-- Components are totally immutable. For example, there is no `addSubcomponent:` method.
-- Components can be created on any thread. This keeps all sizing and construction operations off the main thread.
+- A component is totally immutable. For example, there is no `addSubcomponent:` method.
+- A component can be created on any thread. This helps keep all sizing and construction operations off the main thread.
 - The Objective-C idiom `+newWith...` is used for instantiation instead of the more typical `+alloc/-initWith..`. This is mainly for brevity. Getting rid of noise is important to keep components code readable.

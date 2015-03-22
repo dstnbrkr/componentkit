@@ -4,7 +4,7 @@ layout: docs
 permalink: /docs/responder-chain.html
 ---
 
-Components have a responder chain that is similar to the [responder chain on iOS](https://developer.apple.com/library/ios/documentation/EventHandling/Conceptual/EventHandlingiPhoneOS/event_delivery_responder_chain/event_delivery_responder_chain.html). The components responder chain is separate from `UIView`'s responder chain, so you must manually bridge over to the component responder chain if desired.
+ComponentKit has a responder chain that is similar to the [responder chain on iOS](https://developer.apple.com/library/ios/documentation/EventHandling/Conceptual/EventHandlingiPhoneOS/event_delivery_responder_chain/event_delivery_responder_chain.html). The ComponentKit responder chain is separate from `UIView`'s responder chain, so you must manually bridge over to the component responder chain if desired.
 
 <img src="/static/responder-chain.png" width="618" height="443">
 
@@ -16,7 +16,7 @@ Components have a responder chain that is similar to the [responder chain on iOS
 6. Eventually, this will reach the same root view as the component hierarchy.
 7. It's up to you to manually bridge from the view responder chain into the component responder chain if desired by using `CKComponentActionSend` or one of the helpers described below.
 
-Note that components are not subclasses of `UIResponder` and they cannot become the first responder. They do implement both `nextResponder` and `targetForAction:withSender:`.
+Note that a component is not a subclass of `UIResponder` and it cannot become the first responder. It does implement both `nextResponder` and `targetForAction:withSender:`, however.
 
 # Tap Handling 
 
@@ -68,4 +68,4 @@ That works for `UIControls`, but what about other views? Fear not, you can use `
 
 What about advanced gestures like panning, pinching, swiping, and so on?
 
-These are more complicated. The way the reactive-update model is implemented in Components is fairly limited, so the best option is to build an "escape hatch" from the reactive data flow for these at present.
+These are more complicated. The way the reactive-update model is implemented in ComponentKit is fairly limited, so the best option is to build an "escape hatch" from the reactive data flow for these at present.

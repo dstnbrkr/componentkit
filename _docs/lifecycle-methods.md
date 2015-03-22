@@ -55,7 +55,7 @@ The controller's component can be updated to a new version of the component as p
 
 ### Mutating the View 
 
-Generally views are a hidden implementation detail of Components, but you may need to break that abstraction:
+Generally views are a hidden implementation detail of ComponentKit, but you may need to break that abstraction:
 
 - Animations that cannot be implemented using `animationsFromPreviousComponent:`. Be sure you remove all animations in `componentWillRelinquishView`.
 - Interfacing with views that only expose event callbacks via a delegate API. Make the component controller the view's delegate in `componentDidAcquireView` and nil out the view's delegate in `componentWillRelinquishView`.

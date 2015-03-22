@@ -4,7 +4,7 @@ layout: docs
 permalink: /docs/animation.html
 ---
 
-Components can specify animations via the following method:
+ComponentKit allows you to specify animations via the following method:
 
 ```objc++
   - (std::vector<CKComponentAnimation>)animationsFromPreviousComponent:(CKComponent *)previousComponent

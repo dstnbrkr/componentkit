@@ -1,5 +1,5 @@
 ---
-title: Use CKComponentsDataSource directly
+title: Use CKComponentDataSource directly
 layout: docs
 permalink: /docs/use-ckcomponendatasource-directly.html
 ---

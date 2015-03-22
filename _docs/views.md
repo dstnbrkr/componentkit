@@ -43,7 +43,7 @@ That's all there is to it. The infrastructure does this for us:
 
 # Viewless Components
 
-Often there are logical components that don't need a corresponding view in the view hierarchy. For example a `CKStackLayoutComponent` often doesn't need to have a view; it only needs to position various subviews inside a designated area. In such situations, just pass `{}` for the view configuration and no view is created. For example:
+Often there exist logical components that don't need a corresponding view in the view hierarchy. For example a `CKStackLayoutComponent` often doesn't need to have a view; it only needs to position various subviews inside a designated area. In such situations, just pass `{}` for the view configuration and no view is created. For example:
 
 ```objc++
 [CKComponent newWithView:{} size:{}]

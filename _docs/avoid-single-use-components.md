@@ -15,7 +15,7 @@ static const CGFloat kSpacingBetweenLines = 5.0;
 
 **Only use constants if they are actually used in multiple places.**
 
-Since in Components there is no duplication between `sizeThatFits:` and `layoutSubviews`, you should rarely need to use constants for metrics. This is much more readable:
+Since in ComponentKit there is no duplication between `sizeThatFits:` and `layoutSubviews`, you should rarely need to use constants for metrics. This is much more readable:
 
 ```objc++
 [CKInsetComponent

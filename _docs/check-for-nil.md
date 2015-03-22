@@ -6,7 +6,7 @@ permalink: /docs/check-for-nil.html
 
 Remember: **`+new` can always return nil**. This is particularly important when you're dealing with ivars.
 
-Components has adopted the convention that a component may return nil from `+new` to signal that it has no data to render. For example, `CKUFIComponent` returns nil if there are no buttons in the UFI.
+ComponentKit has adopted the convention that a component may return nil from `+new` to signal that it has no data to render. For example, `CKLabelComponent` returns nil if there are is no string specified.
 
 This is important when you are implementing `+new` because you must be prepared to deal with `[super +new...]` returning nil.
 

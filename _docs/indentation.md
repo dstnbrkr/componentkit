@@ -4,7 +4,7 @@ layout: docs
 permalink: /docs/indentation.html
 ---
 
-Because Components are often deeply nested structures, it's rarely possible to fit them on one line. We've developed some best practices for indentation unique to Components code. These rules should generally *not* be applied to non-Components code.
+Because components are often deeply nested structures, it's rarely possible to fit them on one line. We've developed some best practices for indentation unique to Components code. These rules should generally *not* be applied to non-Components code.
 
 - Put a newline before `new`, so that parameters left-align instead of aligning by semicolon.
 - Put a newline after `:` if the parameter value stretches to multiple lines.
@@ -19,20 +19,20 @@ Because Components are often deeply nested structures, it's rarely possible to f
 This is hard to read
 
 {% highlight objc++ cssclass=redhighlight %}
-  HeaderComponent *header = [HeaderComponent newWithTitle:@"Hello world"
-                                        subtitleComponent:[SubtitleComponent newWithSubtitle:subtitle
+  CKHeaderComponent *header = [CKHeaderComponent newWithTitle:@"Hello world"
+                                            subtitleComponent:[SubtitleComponent newWithSubtitle:subtitle
                                                                                        image:image]
-                                                    image:image];
+                                                        image:image];
 {% endhighlight %}
 
 Much better
 
 ```objc++
 CKFeedHeaderComponent *header =
-[HeaderComponent
+[CKHeaderComponent
  newWithTitle:@"Hello world"
  subtitleComponent:
- [SubtitleComponent
+ [CKSubtitleComponent
   newWithSubtitle:subtitle
   image:image]
  image:image];
@@ -52,10 +52,10 @@ As the *only* special case, we generally write `super newWithComponent:` on a si
 
 ```objc++
 return [super newWithComponent:
-        [HeaderComponent
+        [CKHeaderComponent
          newWithTitle:@"Hello world"
          subtitleComponent:
-         [SubtitleComponent
+         [CKSubtitleComponent
           newWithSubtitle:subtitle
           image:image]
          image:image]];

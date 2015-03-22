@@ -4,7 +4,7 @@ layout: docs
 permalink: /docs/debugging.html
 ---
 
-Components generally uses generic views such as `UIButton`, `UIImageView`, etc. under the hood. Hence, when you run a command like `pviews` you're likely to get a very generic hierarchy that doesn't point you to the component you might want to know more about. The following is the output of running `pviews` for components.
+ComponentKit generally uses generic views such as `UIButton`, `UIImageView`, etc. under the hood. Hence, when you run a command like `pviews` you're likely to get a very generic hierarchy that doesn't point you to the component you might want to know more about. The following is the output of running `pviews` for components.
 
 TODO: Stack Trace
  

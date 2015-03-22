@@ -13,7 +13,7 @@ But of course, not all views can be created with `-initWithFrame:`. For these ca
 CKComponentViewClass(std::string identifier, UIView *(^factory)(void));
 ```
 
-This allows you to use almost any view with Components. 
+This allows you to use almost any view with ComponentKit. 
 
 <div class="note-important">
   <p> 
