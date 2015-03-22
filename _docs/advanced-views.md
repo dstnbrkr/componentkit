@@ -3,7 +3,7 @@ title: Advanced Views
 layout: docs
 permalink: /docs/advanced-views.html
 ---
-Back in [Views](docs/views) we glossed over `CKComponentViewClass` and `CKComponentViewAttribute`. But there's a surprising amount of power hiding here!
+Back in [Views](views.html) we glossed over `CKComponentViewClass` and `CKComponentViewAttribute`. But there's a surprising amount of power hiding here!
 
 `CKComponentViewClass` describes how to create a `UIView`. Usually you pass an Objective-C class like `[UIImageView class]`, and the infrastructure will automatically create a view by invoking the designated initializer `-initWithFrame:`.
 
@@ -17,7 +17,7 @@ This allows you to use almost any view with Components.
 
 <div class="note-important">
   <p> 
-    However, the factory takes no arguments; you can't pass any properties from a particular component to a view's `-init`, since views must be arbitrarily recycled between components. If your view takes properties in `-init`, one possible pattern is to create a wrapping view with setter methods that tear down and re-create the problematic view as a subview.
+    However, the factory takes no arguments; you can't pass any properties from a particular component to a view's <code>-init</code>, since views must be arbitrarily recycled between components. If your view takes properties in <code>-init</code>, one possible pattern is to create a wrapping view with setter methods that tear down and re-create the problematic view as a subview.
   </p>
 </div>
 
@@ -36,6 +36,6 @@ This allows you to express arbitrarily complex operations on the view, like "cal
 
 <div class="note">
   <p> 
-    How does passing a `Class` or `SEL` work for these classes? They each have a single-argument constructor that takes a `Class`/`SEL` and creates an object that creates the right thing. C++ implicitly calls this constructor when you pass a `Class`/`SEL`.
+    How does passing a <code>Class</code> or <code>SEL</code> work for these classes? They each have a single-argument constructor that takes a <code>Class</code>/<code>SEL</code> and creates an object that creates the right thing. C++ implicitly calls this constructor when you pass a <code>Class</code>/<code>SEL</code>.
   </p>
 </div>
