@@ -24,7 +24,7 @@ return [super newWithComponent:
 
 There are a few reasons why:
 
-- There are good reasons to [avoid mutable local variables](docs/avoid-local-variables) in general.
+- There are good reasons to [avoid mutable local variables](avoid-local-variables.html) in general.
 - `nil` children are automatically dropped by `CKStackLayoutComponent`, so there's no need to check for `nil` before adding to the list of children.
 - Conditionals are best done inline; or, encapsulate the checks in a new `CKCompositeComponent` that renders to `nil` if the conditional fails.
 

@@ -7,7 +7,7 @@ Using Objective-C++ in ComponentKit offers some serious wins in syntax. However 
 
 {pxlcld/kRk3}
 
-Here again is a generic story component:
+Here again is a generic article component:
 
 ```objc++
 [CKStackLayoutComponent 
@@ -15,9 +15,9 @@ Here again is a generic story component:
   .direction = CKStackLayoutComponentDirectionVertical,
  } 
  children:{
-   {[CKHeaderComponent newWithStory:story]},
-   {[CKMessageComponent newWithStory:story]},
-   {[CKFooterComponent newWithStory:story]},
+   {[CKHeaderComponent newWithArticle:article]},
+   {[CKMessageComponent newWithArticle:article]},
+   {[CKFooterComponent newWithArticle:article]},
  }];
 ```
 
@@ -29,15 +29,15 @@ Here's what it might look like in pure Objective-C:
                                                                                  alignItems:CKStackLayoutComponentAlignItemsStart
                                                                                     spacing:0]
                             children:@[
-  [CKStackLayoutComponentChild childWithComponent:[CKHeaderComponent newWithStory:story]
+  [CKStackLayoutComponentChild childWithComponent:[CKHeaderComponent newWithArticle:article]
                                        topPadding:0
                                       leftPadding:0
                                     bottomPadding:0],
-  [CKStackLayoutComponentChild childWithComponent:[CKMessageComponent newWithStory:story]
+  [CKStackLayoutComponentChild childWithComponent:[CKMessageComponent newWithArticle:article]
                                        topPadding:0
                                       leftPadding:0
                                     bottomPadding:0],
-  [CKStackLayoutComponentChild childWithComponent:[CKFooterComponent newWithStory:story]
+  [CKStackLayoutComponentChild childWithComponent:[CKFooterComponent newWithArticle:article]
                                        topPadding:0
                                       leftPadding:0
                                     bottomPadding:0]

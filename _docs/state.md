@@ -7,7 +7,7 @@ permalink: /docs/state.html
 So far we've been loosely inspired by [React](http://facebook.github.io/react/). If you're familiar with React, you'll know that React components have two elements:
 
 - **props**: passed from the parent. These roughly correspond to our parameters passed to the `+new` method.
-- **state**: internal to the component, this holds implementation details that the parent should not have to know about. The canonical example is whether the story should be rendered fully, or truncated with a "Continue Reading…" link. This is a detail the parent component should not have to manually manage.
+- **state**: internal to the component, this holds implementation details that the parent should not have to know about. The canonical example is whether the article should be rendered fully, or truncated with a "Continue Reading…" link. This is a detail the parent component should not have to manually manage.
 
 Figuring out the difference between these two can be tricky at first. [Thinking in React](http://facebook.github.io/react/blog/2013/11/05/thinking-in-react.html) is a really helpful blog post on this topic.
 

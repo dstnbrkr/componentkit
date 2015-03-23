@@ -4,7 +4,7 @@ layout: docs
 permalink: /docs/lifecycle-methods.html
 ---
 
-[Component controllers](docs/component-controllers) expose lifecycle methods that allow you to perform custom operations as components mount, unmount, update, and acquire views.
+[Component controllers](component-controllers.html) expose lifecycle methods that allow you to perform custom operations as components mount, unmount, update, and acquire views.
 
 <div class="note">
   <p>

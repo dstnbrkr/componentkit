@@ -25,11 +25,11 @@ Instead, make `CKCardComponent` take the color as a parameter and then subclass 
 
 ```objc++
 @implementation CKHighlightedCardComponent : CKCompositeComponent
-+ (instancetype)newWithStory:(CKStory *)story
++ (instancetype)newWithArticle:(CKArticle *)article
 {
   return [super newWithComponent:
           [CKCardComponent
-           newWithStory:attachment
+           newWithArticle:article
            backgroundColor:[UIColor yellowColor]]];
 }
 @end

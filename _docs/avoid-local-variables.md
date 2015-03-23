@@ -11,33 +11,33 @@ In your `+new` method, avoid creating temporary local variables when possible.
 Here is a really tangled-up `+new` method that is hard to read, understand, or modify:
 
 {% highlight objc++ cssclass=redhighlight %}
-+ (instancetype)newWithStory:(CKStory *)story options:(CKStoryOptions)options
++ (instancetype)newWithArticle:(CKArticle *)article options:(CKArticleOptions)options
 {
-  NSAttributedString *timestamp = [CKDateFormatter stringFromDate:story.creationTime];
+  NSAttributedString *timestamp = [CKDateFormatter stringFromDate:article.creationTime];
   CKHeaderComponent *header =
   [CKHeaderComponent
-   newWithTitle:story.title
+   newWithTitle:article.title
    subtitle:timestamp];
 
   // LOGIC ERROR! timestamp has already been used by header, but no one warns us.
-  if (options & CKStoryOptionHideTimestamp) {
+  if (options & CKArticleOptionHideTimestamp) {
     timestamp = nil;
   }
 
   CKMessageOptions messageOptions = 0;
-  if (options & CKStoryOptionShortMessage) {
+  if (options & CKArticleOptionShortMessage) {
     messageOptions |= CKMessageOptionShort;
   }
   CKMessageComponent *message =
   [CKMessageComponent
-   newWithStory:story
+   newWithArticle:article
    options:messageOptions];
 
-  CKFooterComponent *footer = [CKFooterComponent newWithStory:story];
+  CKFooterComponent *footer = [CKFooterComponent newWithArticle:article];
 
   // SUBOPTIMAL: why did we create the header only to throw it away?
   // Also, notice how far this is from where we created the header.
-  if (options & CKStoryOptionOmitHeader) {
+  if (options & CKArticleOptionOmitHeader) {
     header = nil;
   }
 
@@ -54,31 +54,31 @@ Here is a really tangled-up `+new` method that is hard to read, understand, or m
 Instead, split out logic into separate components:
 
 ```objc++
-+ (instancetype)newWithStory:(CKStory *)story options:(CKStoryOptions)options
++ (instancetype)newWithArticle:(CKArticle *)article options:(CKArticleOptions)options
 {
   // Note how there are NO local variables here at all.
   return [self newWithComponent:
           [CKStackLayoutComponent
            newWithChildren:{
-             [CKStoryHeaderComponent
-              newWithStory:story
+             [CKArticleHeaderComponent
+              newWithArticle:article
               options:headerOptions(options)],
-             [CKStoryMessageComponent
-              newWithStory:story
+             [CKArticleMessageComponent
+              newWithArticle:article
               options:messageOptions(options)],
-             [CKFooterComponent newWithStory:story]
+             [CKFooterComponent newWithArticle:article]
            }]];
 }
 
 // Note how this is a pure function mapping from one options bitmask to another.
-static CKStoryHeaderComponentOptions headerOptions(CKStoryOptions options)
+static CKArticleHeaderComponentOptions headerOptions(CKArticleOptions options)
 {
-  CKStoryHeaderComponentOptions options;
-  if (options & CKStoryOptionOmitHeader) {
-    options |= CKStoryHeaderComponentOptionOmit;
+  CKArticleHeaderComponentOptions options;
+  if (options & CKArticleOptionOmitHeader) {
+    options |= CKArticleHeaderComponentOptionOmit;
   }
-  if (options & CKStoryOptionHideTimestamp) {
-    options |= CKStoryHeaderComponentOptionHideTimestamp;
+  if (options & CKArticleOptionHideTimestamp) {
+    options |= CKArticleHeaderComponentOptionHideTimestamp;
   }
   return options;
 }
