@@ -1,5 +1,5 @@
 ---
-title: Display components in a collection view
+title: Collection Views
 layout: docs
 permalink: /docs/build-collectionview-using-componentkit.html
 ---

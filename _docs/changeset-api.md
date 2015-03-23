@@ -1,5 +1,5 @@
 ---
-title: The Changeset API
+title: Changesets
 layout: docs
 permalink: /docs/changeset-api.html
 ---

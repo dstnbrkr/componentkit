@@ -15,7 +15,7 @@
   - component-actions
   - animation
   - debugging
-- title: Collection and Table Views 
+- title: Collection Views
   items:
   - introducing-datasources
   - build-collectionview-using-componentkit
