@@ -1,10 +1,9 @@
 - title: Quick Start
   items:
-  - about-componentkit
+  - introduction
   - getting-started
 - title: Reference
   items:
-  - introduction
   - component-api
   - views
   - layout
