@@ -66,7 +66,7 @@ pcomponents -u 0x81901e30
   
 <div class="note">
   <p>
-     Generally, if you run <code>pcomponents</code> you will be presented with multiple component hierarchies, one each for each visible cell. To get the component hierarchy for the cell you're interested in, type <code>taplog</taplog> on the console and click on a view in the cell you're interested in - <code>taplog</code> would give you the memory address of that view, which you can copy. Then you can use <code>pcomponents -u &lt;Address of View&gt;</code> to get the hierarchy for the cell you are interested in.
+     Generally, if you run <code>pcomponents</code> you will be presented with multiple component hierarchies, one each for each visible cell. To get the component hierarchy for the cell you're interested in, type <code>taplog</code> on the console and click on a view in the cell you're interested in - <code>taplog</code> would give you the memory address of that view, which you can copy. Then you can use <code>pcomponents -u &lt;Address of View&gt;</code> to get the hierarchy for the cell you are interested in.
   </p>
 </div>
 
