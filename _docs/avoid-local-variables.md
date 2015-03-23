@@ -33,7 +33,7 @@ Here is a really tangled-up `+new` method that is hard to read, understand, or m
    newWithStory:story
    options:messageOptions];
 
-  CKFooterComponent *ufi = [CKFooterComponent newWithStory:story];
+  CKFooterComponent *footer = [CKFooterComponent newWithStory:story];
 
   // SUBOPTIMAL: why did we create the header only to throw it away?
   // Also, notice how far this is from where we created the header.
@@ -46,7 +46,7 @@ Here is a really tangled-up `+new` method that is hard to read, understand, or m
            newWithChildren:{
              header,
              message,
-             ufi
+             footer
            }]];
 }
 {% endhighlight %}
