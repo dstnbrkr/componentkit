@@ -314,6 +314,7 @@ section.content article ol li {
 section.content article img {
     display: block;
     margin: 1em auto;
+    max-width: 100%;
 }
 
 section.content article blockquote {

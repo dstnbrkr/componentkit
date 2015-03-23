@@ -4,7 +4,7 @@ layout: docs
 permalink: /docs/ckcomponentdatasource-explained.html
 ---
 
-![Overwiew of the datasource](/static/ck_datasource.png)
+![Overwiew of the datasource](/static/images/datasource.png)
 
 <div class="note">
   <p>
