@@ -10,7 +10,7 @@ Every time something changes, an entirely new component is created and the old o
 
 But sometimes, you do need an object with a longer lifecycle. *Component controllers* fill that role:
 
-- [Components cant be delegates](components-cant-be-delegates.html) because they are short-lived, but component controllers can be delegates.
+- [Components can't be delegates](components-cant-be-delegates.html) because they are short-lived, but component controllers can be delegates.
 - Network downloads take time to complete; the component may have been recreated by the time the download completes. The controller can handle the callback.
 - You may need an object to own some other object that should have a long lifetime.
 

@@ -6,13 +6,13 @@ permalink: /docs/component-api.html
 The base `CKComponent` class is quite simple. Leaving out a few methods, it looks like this:
 
 ```objc++
-@interface CKComponent : UIResponder
+@interface CKComponent : NSObject
 
-/// Returns a new component.
-+ (instancetype)newWithView:(CKComponentViewConfiguration)view
-                       size:(CKComponentSize)size;
+/** Returns a new component. */
++ (instancetype)newWithView:(const CKComponentViewConfiguration &)view
+                       size:(const CKComponentSize &)size;
 
-/// Returns a layout for the component and its children.
+/** Returns a layout for the component and its children. */
 - (CKComponentLayout)layoutThatFits:(CKSizeRange)constrainedSize
                          parentSize:(CGSize)parentSize;
 

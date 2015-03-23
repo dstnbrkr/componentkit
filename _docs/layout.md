@@ -21,12 +21,20 @@ struct CKComponentLayoutChild {
 };
 ```
 
-You can implement `computeLayoutThatFits:` manually if needed, but generally it's easier to use "layout components". These provide common layouts like stack, overlay, inset, center, and so on.
+## Layout Components
 
-# Stack Layouts 
+ComponentKit includes a library of components that can be composed to declaratively specify a layout.
 
-`CKStackLayoutComponent` is important enough to cover in some detail. Its semantics are based on the [CSS flexbox](http://www.w3.org/TR/css3-flexbox/) specification, though simplified in some areas.
+- `CKStackLayoutComponent` is based on a simplified version of [CSS flexbox](http://www.w3.org/TR/css3-flexbox/). It allows you to stack components vertically or horizontally and specify how they should be flexed and aligned to fit in the available space.
+- `CKInsetComponent` applies an inset margin around a component.
+- `CKBackgroundLayoutComponent` lays out a component, stretching another component behind it as a backdrop.
+- `CKOverlayLayoutComponent` lays out a component, stretching another component on top of it as an overlay.
+- `CKCenterLayoutComponent` centers a component in the available space.
+- `CKRatioLayoutComponent` lays out a component at a fixed aspect ratio.
+- `CKStaticLayoutComponent` allows positioning children at fixed offsets.
 
-This provides a great deal of power. While iOS Feed has many complicated layouts, almost all of them are implemented as stack layouts. This means there is almost no layout math required.
+## Implementing computeLayoutThatFits:
 
-It also means that if you're struggling to figure out how to configure a `CKStackLayoutComponent`, you might want to consult a CSS expert!
+If the components above aren't powerful enough, you can implement `computeLayoutThatFits:` manually. This method passes you a `CKSizeRange` that specifies a min size and a max size. Choose any size in the given range, then return a `CKComponentLayout` structure with the layout of child components.
+
+For sample implementations of `computeLayoutThatFits:`, check out the layout components in ComponentKit itself!

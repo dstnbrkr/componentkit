@@ -12,11 +12,11 @@ permalink: /docs/lifecycle-methods.html
   </p>
 </div>
 
-# Ordering 
+## Ordering
 
 Lifecycle methods have the following defined ordering.
 
-### Mounting 
+### Mounting
 
 1. `willMount`
 2. `componentDidAcquireView` *if* the controller's component has a view
@@ -40,7 +40,7 @@ Remounting occurs when the controller's component is already mounted and either 
 
 <div class="note-important">
   <p>
-     There are no guarantees that the component's children or parents are mounted in `willUnmount` or `componentWillRelinquishView`. You **must not** use `CKComponentActionSend` or any other method that assumes the component's parents are mounted.
+     There are no guarantees that the component's children or parents are mounted in <code>willUnmount</code> or <code>componentWillRelinquishView</code>. You <b>must not</b> use <code>CKComponentActionSend</code> or any other method that assumes the component's parents are mounted.
   </p>
 </div>
 
@@ -51,7 +51,7 @@ The controller's component can be updated to a new version of the component as p
 1. `willUpdateComponent` before `willMount` or `willRemount`
 2. `didUpdateComponent` after `didMount` or `didRemount`
 
-# Uses 
+## Uses 
 
 ### Mutating the View 
 
