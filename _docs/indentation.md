@@ -16,7 +16,7 @@ Because components are often deeply nested structures, it's rarely possible to f
   </p>
 </div>
 
-This is hard to read
+This is hard to read:
 
 {% highlight objc++ cssclass=redhighlight %}
   CKHeaderComponent *header = [CKHeaderComponent newWithTitle:@"Hello world"
@@ -25,9 +25,9 @@ This is hard to read
                                                         image:image];
 {% endhighlight %}
 
-Much better
+<p>Much better:</p>
 
-```objc++
+{% highlight objc++ %}
 CKFeedHeaderComponent *header =
 [CKHeaderComponent
  newWithTitle:@"Hello world"
@@ -36,9 +36,9 @@ CKFeedHeaderComponent *header =
   newWithSubtitle:subtitle
   image:image]
  image:image];
-```
+{% endhighlight %}
 
-Within a statement, indent by only one space (not two, as you would for control flow).
+<p>Within a statement, indent by only one space.</p>
 
 <div class="note">
   <p>
@@ -48,7 +48,7 @@ Within a statement, indent by only one space (not two, as you would for control 
 
 ### Special Case 
 
-As the *only* special case, we generally write `super newWithComponent:` on a single line. This is merely for convenience as `super` is a short word and `newWithComponent:` fits nicely at its side, while it works well with Xcode's indentation. For example:
+As the *only* special case, you should generally write `super newWithComponent:` on a single line. This is merely for convenience as this fits nicely on one line and works well with Xcode's indentation. For example:
 
 ```objc++
 return [super newWithComponent:
@@ -61,7 +61,7 @@ return [super newWithComponent:
          image:image]];
 ```
 
-That's the *only* special case. If the object is not `super` or the method is not `newWithComponent`, always put the method on a new line. For example, even if you're writing `super newWithView:`, have a new line after `super`:
+If the object is not `super` or the method is not `newWithComponent`, always put the method on a new line. For example, even if you're writing `super newWithView:`, have a new line after `super`:
 
 ```objc++
 return [super
