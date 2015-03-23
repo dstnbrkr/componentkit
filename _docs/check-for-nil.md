@@ -1,5 +1,5 @@
 ---
-title: Check for nil
+title: Check for Nil
 layout: docs
 permalink: /docs/check-for-nil.html
 ---

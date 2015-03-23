@@ -1,5 +1,5 @@
 ---
-title: Dive deeper
+title: Dive Deeper
 layout: docs
 permalink: /docs/ckcomponentdatasource-explained.html
 ---
