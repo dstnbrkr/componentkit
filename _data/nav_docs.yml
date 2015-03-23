@@ -30,7 +30,7 @@
   - avoid-overrides
   - indentation
   - avoid-local-variables
-  - avoid-single-use-components
+  - avoid-single-use-constants
   - no-underscores
   - pass-in-component-actions
   - no-side-effects

@@ -1,7 +1,7 @@
 ---
-title: Avoid Single Use Components
+title: Avoid Single Use Constants
 layout: docs
-permalink: /docs/avoid-single-use-components.html
+permalink: /docs/avoid-single-use-constants.html
 ---
 
 It's common for iOS code to use constants for layout metrics:
