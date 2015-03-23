@@ -10,7 +10,7 @@ TODO: Stack Trace
  
 As you can see, this is very generic and it is almost impossible to get back to the component from this view output. Hence, we have created a set of debugging tools that help you achieve that simply.
 
-# pcomponents 
+## pcomponents 
 
 `pcomponents` allows you to print the component hierarchy, including layout information like position and size. It is designed to be analogous to how `pviews` works. It is the easiest way to reason about where your layout might have gone wrong while looking at the component rendered on screen. It can generally be called just by saying `pco` in the debug console.
 
@@ -28,7 +28,7 @@ TODO: add a stack trace
   </p>
 </div>
 
-# dcomponents 
+## dcomponents 
 
 `dcomponents` sets up debug views which are phantom views for components which originally don't have any views. Looking through the view hierarchy in Reveal gives a visual manifestation to layout and can be useful for debugging. `dcomponents` gives a sense of the component hierarchy in the view hierarchy itself, since the phantom views generated have the name of their backing components.
 
