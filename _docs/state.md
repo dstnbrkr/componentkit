@@ -15,8 +15,7 @@ Just like React, `CKComponent` has state.
 
 ```objc++
 @interface CKComponent
-- (void)updateState:(id (^)(id))updateBlock
-  animationDuration:(CGFloat)animationDuration;
+- (void)updateState:(id (^)(id))updateBlock;
 @end
 ```
 
@@ -45,9 +44,7 @@ Let's make a simple example of using state for the "Continue Reading…" link.
 
 - (void)didTapContinueReading:(id)sender
 {
-  [self updateState:^(id oldState){
-    return @YES;
-  } animationDuration:kCKComponentAnimationDurationNone];
+  [self updateState:^(id oldState){ return @YES; }];
 }
 
 @end
@@ -56,13 +53,3 @@ That's all there is to it. Some nice attributes:
 
 - Continue Reading state is completely hidden from parent components and controllers. They don't need to know about it or manage it.
 - State changes can be coalesced or arbitrarily delayed for performance reasons. We can easily compute the updated component off the main thread when possible/desired.
-
-# But this violates MVC!
-
-Some might argue this violates MVC. A view knows about state and knows how to respond to a user action!
-
-This is not entirely true. The component does not know how to update its actual associated view; updating a view piecemeal is not allowed. The component *does* know how to inform its parent controller that a change has occurred via `CKComponentScope`.
-
-If the parent controller were not monitoring the state object for updates, then the Continue Reading link would do nothing.
-
-*State is just a generalized way of hiding implementation details from top-level controllers.* Controllers still manage the flow of re-rendering a view.
