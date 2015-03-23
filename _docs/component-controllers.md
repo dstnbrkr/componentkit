@@ -23,7 +23,7 @@ But sometimes, you do need an object with a longer lifecycle. *Component control
 
 ## Controller Flow 
 
-{pxlcld/lKzm, retina=pxlcld/lKzn}
+![Component Controller Flow](/static/images/component-controllers.png)
 
 1. The component controller is **created** with the first component.
 2. When the component is updated, a new instance is generated…
