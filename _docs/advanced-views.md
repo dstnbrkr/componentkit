@@ -7,10 +7,10 @@ Back in [Views](views.html) we glossed over `CKComponentViewClass` and `CKCompon
 
 `CKComponentViewClass` describes how to create a `UIView`. Usually you pass an Objective-C class like `[UIImageView class]`, and the infrastructure will automatically create a view by invoking the designated initializer `-initWithFrame:`.
 
-But of course, not all views can be created with `-initWithFrame:`. For these cases, there's an advanced constructor that takes a block:
+But of course, not all views can be created with `-initWithFrame:`. For these cases, there's an advanced constructor that takes a function pointer:
 
 ```objc++
-CKComponentViewClass(std::string identifier, UIView *(^factory)(void));
+CKComponentViewClass(UIView *(*factory)(void));
 ```
 
 This allows you to use almost any view with ComponentKit. 
