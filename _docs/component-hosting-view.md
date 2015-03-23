@@ -6,7 +6,7 @@ permalink: /docs/component-hosting-view.html
 
 <div class='note-important'>
   <p>
-    A <code>CKComponentHostingView</code> is not supposed to be used inside a table or a collection view. It is supposed to be used standalone.
+    A <code>CKComponentHostingView</code> is not supposed to be used inside a `UICollectionView`. Use `CKCollectionViewDataSource` instead.
   </p>
 </div>
 
