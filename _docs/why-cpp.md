@@ -3,9 +3,7 @@ title: Why C++
 layout: docs
 permalink: /docs/why-cpp.html
 ---
-Using Objective-C++ in ComponentKit offers some serious wins in syntax. However this does mean you need to touch a limited subset of C++ to work with ComponentKit.  Don't worry, it's not too bad:
-
-{pxlcld/kRk3}
+Using Objective-C++ in ComponentKit offers some serious wins in syntax. However this does mean you need to touch a limited subset of C++ to work with ComponentKit.  Don't worry, it's not too bad!
 
 Here again is a generic article component:
 
