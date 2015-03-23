@@ -6,7 +6,7 @@ permalink: /docs/responder-chain.html
 
 ComponentKit has a responder chain that is similar to the [responder chain on iOS](https://developer.apple.com/library/ios/documentation/EventHandling/Conceptual/EventHandlingiPhoneOS/event_delivery_responder_chain/event_delivery_responder_chain.html). The ComponentKit responder chain is separate from `UIView`'s responder chain, so you must manually bridge over to the component responder chain if desired.
 
-![Responder Chain](/static/images/responder-chain.png)
+<img src="/static/images/responder-chain.png" alt="Responder Chain" width="618" height="443">
 
 1. The next responder of a component is its [controller](component-controllers.html), if it has one.
 2. The next responder of a component's controller is its component's parent component.
