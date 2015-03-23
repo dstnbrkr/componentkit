@@ -25,7 +25,7 @@ Let's dive in with some sample code for describing a simplistic story in News Fe
            children:{
              {[CKHeaderComponent newWithStory:story]},
              {[CKMessageComponent newWithMessage:story.message]},
-             {[CKFooterComponent newWithFeedback:story.footer]},
+             {[CKFooterComponent newWithFooter:story.footer]},
            }];
 }
 
