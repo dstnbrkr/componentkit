@@ -14,7 +14,7 @@ The datasource maintains an internal data-structure which is the only source of 
 
 For instance to access the model associated to a certain index path using a `CKCollectionViewDataSource` you can use :
 
-``` objc++
+```objc++
 [datasource objectAtindexPath:indexPath];
 ```
 
@@ -49,7 +49,7 @@ Now let's look at what could go wrong if we query another source of data.
 
 ### Don't ask the the list view for the position of the next insertion
 
-The list view gives you the current state of what is displayed on the screen, but it doesn't include what is potentially currently being computed in the background. To get this information you need to maintain state that is udpated at the same time as a changeset is enqueued.
+The list view gives you the current state of what is displayed on the screen, but it doesn't include what is potentially currently being computed in the background. To get this information you need to maintain state that is updated at the same time as a changeset is enqueued.
 
 Let's look at this buggy code.
 
