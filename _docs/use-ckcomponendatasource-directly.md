@@ -104,8 +104,8 @@ UITableViewDelegate
 
 - (void)componentDataSource:(CKComponentDataSource *)componentDataSource
 changesetIncludesSizeChange:(BOOL)changesetIncludesSizeChange
-        changesetApplicator:(fb_changeset_applicator_t)changesetApplicator
-                     ticker:(fb_ticker_block_t)ticker
+        changesetApplicator:(ck_changeset_applicator_t)changesetApplicator
+                     ticker:(ck_ticker_block_t)ticker
 {
   [_tableView beginUpdates];
   const auto &changeset = changesetApplicator();
