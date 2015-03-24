@@ -14,9 +14,21 @@ Here is an example of usage of `CKComponentDataSource` directly with a UIViewCon
 
 ```objc++
 {% raw  %}
+/* This file provided by Facebook is for non-commercial testing and evaluation
+ * purposes only.  Facebook reserves all rights not expressly granted.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * FACEBOOK BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 #import <UIKit/UIKit.h>
 
-@interface  ComponentsTableViewController : UIViewController
+@interface ComponentsTableViewController : UIViewController
+
 @end
 {% endraw  %}
 ```
@@ -25,20 +37,38 @@ Here is an example of usage of `CKComponentDataSource` directly with a UIViewCon
 
 ```objc++
 {% raw  %}
-#import "ComponentTableViewController.h"
+/* This file provided by Facebook is for non-commercial testing and evaluation
+ * purposes only.  Facebook reserves all rights not expressly granted.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * FACEBOOK BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 
-using namespace CK::ArrayController;
+#import "ComponentsTableViewController.h"
 
-@interface SimpleTableViewController () <
+#import <ComponentKit/CKComponentProvider.h>
+#import <ComponentKit/CKComponentDataSource.h>
+#import <ComponentKit/CKComponentDataSourceOutputItem.h>
+#import <ComponentKit/CKComponentConstantDecider.h>
+#import <ComponentKit/CKDimension.h>
+#import <ComponentKit/CKTextComponent.h>
+
+static NSString *const kReuseIdentifier = @"com.component_kit.table_view_data_source.cell";
+
+@interface ComponentsTableViewController () <
 CKComponentProvider,
 CKComponentDataSourceDelegate,
 UITableViewDataSource,
 UITableViewDelegate
 >
+
 @end
 
-@implementation ComponentTableViewController
-{
+@implementation ComponentsTableViewController {
   UITableView *_tableView;
   CKComponentDataSource *_componentDataSource;
   CKSizeRange _constrainedSize;
@@ -60,26 +90,34 @@ UITableViewDelegate
                                                                           context:nil
                                                                           decider:[[CKComponentConstantDecider alloc] initWithEnabled:@YES]];
   _componentDataSource.delegate = self;
-  _componentDataSource.state = CKSuspensionControllerStateNotSuspended;
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
   [super viewDidAppear:animated];
+  // Insert the initial section and two rows in the componentDataSource
+  CKArrayControllerSections sections;
+  CKArrayControllerInputItems items;
+  sections.insert(0);
+  items.insert({0,0}, @"Hello");
+  items.insert({0,1}, @"World !");
+  CGFloat tableViewWidth = _tableView.bounds.size.width;
+  [_componentDataSource enqueueChangeset:{sections, items}
+                         constrainedSize:{{tableViewWidth, 0},{tableViewWidth, INFINITY}}];
 }
 
 #pragma mark - UITableViewDatasource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	// Grab the output item
+  // Grab the output item
   CKComponentDataSourceOutputItem *outputItem = [_componentDataSource objectAtIndexPath:indexPath];
-	// Dequeue a table view cell
+  // Dequeue a table view cell
   UITableViewCell *cell = [_tableView dequeueReusableCellWithIdentifier:kReuseIdentifier];
-	// Get the lifecycle manager out of the output item
+  // Get the lifecycle manager
   CKComponentLifecycleManager *lifecycleManager = [outputItem lifecycleManager];
-	// Mount the corresponding component tree in the container view
-  [lifecycleManager attachToView:[cell componentContainerView]];
+  // Mount the corresponding component tree in the cell container view
+  [lifecycleManager attachToView:cell.contentView];
   return cell;
 }
 
@@ -87,6 +125,7 @@ UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+  // Query the datasource for the height of the corresponding component
   return [[[_componentDataSource objectAtIndexPath:indexPath] lifecycleManager] size].height;
 }
 
@@ -103,27 +142,20 @@ UITableViewDelegate
 #pragma mark - CKComponentDatasourceDelegate
 
 - (void)componentDataSource:(CKComponentDataSource *)componentDataSource
-changesetIncludesSizeChange:(BOOL)changesetIncludesSizeChange
+          hasChangesOfTypes:(CKComponentDataSourceChangeType)changeTypes
         changesetApplicator:(ck_changeset_applicator_t)changesetApplicator
-                     ticker:(ck_ticker_block_t)ticker
 {
+  // Once the datasource has computed the components, perform a batch update
+  // on the tableView to insert/delete/update rows and insert/delete sections.
   [_tableView beginUpdates];
   const auto &changeset = changesetApplicator();
   applyChangesetToTableView(changeset, _tableView);
   [_tableView endUpdates];
-  ticker();
-}
-
-#pragma mark - CKComponentProvider
-
-+ (CKComponent *)componentForModel:(NSString *)model context:(id<NSObject>)context
-{
-  //TODO according to your model
 }
 
 static void applyChangesetToTableView(const CKArrayControllerOutputChangeset &changeset, UITableView *tableView)
 {
-  Sections::Enumerator sectionsEnumerator = ^(NSIndexSet *sectionIndexes, CKArrayControllerChangeType type, BOOL *stop) {
+  CKArrayControllerSections::Enumerator sectionsEnumerator = ^(NSIndexSet *sectionIndexes, CKArrayControllerChangeType type, BOOL *stop) {
     if (type == CKArrayControllerChangeTypeDelete) {
       [tableView deleteSections:sectionIndexes withRowAnimation:UITableViewRowAnimationFade];
     }
@@ -131,7 +163,7 @@ static void applyChangesetToTableView(const CKArrayControllerOutputChangeset &ch
       [tableView insertSections:sectionIndexes withRowAnimation:UITableViewRowAnimationFade];
     }
   };
-
+  
   CKArrayControllerOutputItems::Enumerator itemEnumerator =
   ^(const CKArrayControllerOutputChange &change, CKArrayControllerChangeType type, BOOL *stop) {
     NSIndexPath *indexPath = change.indexPath.toNSIndexPath();
@@ -145,8 +177,35 @@ static void applyChangesetToTableView(const CKArrayControllerOutputChangeset &ch
       [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
   };
-
+  
+  // Enumerate over the changeset and for each type of change perform the corresponding changes
+  // on the table view
   changeset.enumerate(sectionsEnumerator, itemEnumerator);
+}
+
+- (void)componentDataSource:(CKComponentDataSource *)componentDataSource
+     didChangeSizeForObject:(CKComponentDataSourceOutputItem *)object
+                atIndexPath:(NSIndexPath *)indexPath
+                  animation:(const CKComponentBoundsAnimation &)animation
+{
+  [_tableView beginUpdates];
+  [_tableView endUpdates];
+}
+
+#pragma mark - CKComponentProvider
+
++ (CKComponent *)componentForModel:(NSString *)model context:(id<NSObject>)context
+{
+  return
+   [CKTextComponent
+    newWithTextAttributes:{
+      .attributedString =
+      [[NSAttributedString alloc]
+       initWithString:model
+       attributes:@{NSFontAttributeName: [UIFont fontWithName:@"AmericanTypewriter" size:26]}]
+    }
+    viewAttributes:{{@selector(setBackgroundColor:), [UIColor clearColor]}}
+    accessibilityContext:{}];
 }
 
 @end
