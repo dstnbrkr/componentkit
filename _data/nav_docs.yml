@@ -9,11 +9,11 @@
   - views
   - layout
   - responder-chain
+  - component-actions
   - state
   - scopes
   - component-controllers
   - lifecycle-methods
-  - component-actions
   - animation
   - debugging
 - title: Collection Views
