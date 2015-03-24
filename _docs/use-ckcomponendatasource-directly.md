@@ -121,7 +121,7 @@ changesetIncludesSizeChange:(BOOL)changesetIncludesSizeChange
   //TODO according to your model
 }
 
-static void applyChangesetToTableView(const Output::Changeset &changeset, UITableView *tableView)
+static void applyChangesetToTableView(const CKArrayControllerOutputChangeset &changeset, UITableView *tableView)
 {
   Sections::Enumerator sectionsEnumerator = ^(NSIndexSet *sectionIndexes, CKArrayControllerChangeType type, BOOL *stop) {
     if (type == CKArrayControllerChangeTypeDelete) {
@@ -132,8 +132,8 @@ static void applyChangesetToTableView(const Output::Changeset &changeset, UITabl
     }
   };
 
-  Output::Items::Enumerator itemEnumerator =
-  ^(const Output::Change &change, CKArrayControllerChangeType type, BOOL *stop) {
+  CKArrayControllerOutputItems::Enumerator itemEnumerator =
+  ^(const CKArrayControllerOutputChange &change, CKArrayControllerChangeType type, BOOL *stop) {
     NSIndexPath *indexPath = change.indexPath.toNSIndexPath();
     if (type == CKArrayControllerChangeTypeDelete) {
       [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];

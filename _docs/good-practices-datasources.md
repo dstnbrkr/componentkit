@@ -31,7 +31,7 @@ Now let's look at what could go wrong if we query another source of data.
 // We first add the new model (B) at the beginning of _listOfModels which already contained (A)
     // [A] -> [B, A]
   [_listOfModels insertObject:model atIndex:0];
-  Input::Items items;
+  CKArrayControllerInputItems items;
   Items.insert({0, 0});
   // Enqueue the changeset asynchronously in the datasource
   [_datasource enqueueChangeset:{{}, items}];
@@ -64,7 +64,7 @@ Let's look at this buggy code.
 // We first add the new model (C) at the end of _listOfModels which already contains (A) et (B)
     // [A, B] -> [A, B, C]
   [_listOfModels addObject:model];
-  Input::Items items;
+  CKArrayControllerInputItems items;
   // Only A is in the tableView, the components for B are still computed in the background
   // so numberOfItemsInSection returns 1, C will be inserted at index 1 and we will end up
   // with a list view displaying [A, C, B]

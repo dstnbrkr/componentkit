@@ -18,7 +18,7 @@ These commands can be seen as a sentence with three parts :
 Here is some sample code, showing how to create a changeset - As you can see changesets are a c++ structure.
 
 ```objc++
-Input::Items items;
+CKArrayControllerInputItems items;
 // Insert an item at index 0 in section 0 and compute for @"Hello"
 items.insert({0, 0}, @"Hello");
 // Update the item at index 1 in section 0 and update it with the component computed for @"World"
