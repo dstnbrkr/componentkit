@@ -9,8 +9,8 @@ ComponentKit excels at powering list views with complex content. It was built to
 ### Strengths
 
 - Simple and Declarative: Just like React itself. [Why React?](http://facebook.github.io/react/docs/why-react.html) sums up these benefits.
-- Scroll Performance: all layout is performed on a background thread, ensuring the main thread isn't tied up measuring text. 60FPS is a breeze even for deep, complex layouts like Facebook's News Feed.
-- View Recycling: by requiring all view configurations to be expressed declaratively, ComponentKit makes error-free view recycling automatic.
+- Scroll Performance: All layout is performed on a background thread, ensuring the main thread isn't tied up measuring text. 60FPS is a breeze even for deep, complex layouts like Facebook's News Feed.
+- View Recycling: By requiring all view configurations to be expressed declaratively, ComponentKit makes error-free view recycling automatic.
 - Composability: By encouraging heavy use of composition, it's possible to build UIs as complex as News Feed without any single component exceeding [300 lines of code](under-300-lines.html).
 
 ### Considerations
