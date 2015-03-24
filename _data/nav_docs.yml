@@ -2,6 +2,7 @@
   items:
   - introduction
   - getting-started
+  - uses
 - title: Reference
   items:
   - component-api
