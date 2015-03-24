@@ -5,7 +5,7 @@ permalink: /docs/advanced-views.html
 ---
 Back in [Views](views.html) we glossed over `CKComponentViewClass` and `CKComponentViewAttribute`. But there's a surprising amount of power hiding here!
 
-`CKComponentViewClass` describes how to create a `UIView`. Usually you pass an Objective-C class like `[UIImageView class]`, and the infrastructure will automatically create a view by invoking the designated initializer `-initWithFrame:`.
+`CKComponentViewClass` describes how to create a `UIView`. Usually you pass an Objective-C class like `[UIImageView class]`, and ComponentKit will automatically create a view by invoking the designated initializer `-initWithFrame:`.
 
 But of course, not all views can be created with `-initWithFrame:`. For these cases, there's an advanced constructor that takes a function pointer:
 
@@ -32,7 +32,7 @@ struct CKComponentViewAttribute {
 };
 ```
 
-This allows you to express arbitrarily complex operations on the view, like "call this method with these N arguments". The only restriction is that you must box up the inputs to the block in a single `id` so the infrastructure can determine if it has changed across recyclings.
+This allows you to express arbitrarily complex operations on the view, like "call this method with these N arguments". The only restriction is that you must box up the inputs to the block in a single `id` so ComponentKit can determine if it has changed across recyclings.
 
 <div class="note">
   <p> 

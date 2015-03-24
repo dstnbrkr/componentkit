@@ -6,7 +6,7 @@ permalink: /docs/layout.html
 
 `UIView` instances store position and size in their `center` and `bounds` properties. As constraints change, Core Animation performs a layout pass to call `layoutSubviews`, asking views to update these properties on their subviews.
 
-`CKComponent` instances do not have any size or position information. Instead, the infrastructure calls the `layoutThatFits:` method with a given size constraint and the component must *return* a structure describing both its size, and the position and sizes of its children.
+`CKComponent` instances do not have any size or position information. Instead, ComponentKit calls the `layoutThatFits:` method with a given size constraint and the component must *return* a structure describing both its size, and the position and sizes of its children.
 
 ```objc++
 struct CKComponentLayout {

@@ -4,6 +4,8 @@ layout: docs
 permalink: /docs/animation.html
 ---
 
+Animations can be challenging in reactive frameworks because they make state management explicit.
+
 ComponentKit exposes two ways to perform animations.
 
 ```objc++

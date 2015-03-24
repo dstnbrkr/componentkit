@@ -68,4 +68,4 @@ That works for `UIControls`, but what about other views? Fear not, you can use `
 
 What about advanced gestures like panning, pinching, swiping, and so on?
 
-These are more complicated. The way the reactive-update model is implemented in ComponentKit is fairly limited, so the best option is to build an "escape hatch" from the reactive data flow for these at present.
+These are more complicated. The way the reactive-update model is implemented in ComponentKit is fairly limited, so the best option is to build an "escape hatch" from the reactive data flow for these at present. Drop down and mutate the underlying views directly as the user performs a gesture.

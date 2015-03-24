@@ -26,16 +26,18 @@ The second field holds a map of attributes to values: font, color, background im
 Let's put one together:
 
 ```objc++
-[CKComponent newWithView:{
-  [UIImageView class],
-  {
-    {@selector(setImage:), image},
-    {@selector(setContentMode:), @(UIViewContentModeCenter)} // Wrapping into an NSNumber
-  }
-}];
+[CKComponent 
+ newWithView:{
+   [UIImageView class],
+   {
+     {@selector(setImage:), image},
+     {@selector(setContentMode:), @(UIViewContentModeCenter)} // Wrapping into an NSNumber
+   }
+ }
+ size:{image.size.width, image.size.height}];
 ```
 
-That's all there is to it. The infrastructure does this for us:
+That's all there is to it. ComponentKit does this for us:
 
 - Automatically creates or reuses a `UIImageView` when the component is mounted
 - Automatically calls `setImage:` and `setContentMode:` with the given values
@@ -43,7 +45,7 @@ That's all there is to it. The infrastructure does this for us:
 
 ## Primitive Arguments
 
-The values in the map are of type `id`, so if you want to pass in primitive types like `BOOL`, you have to wrap them into a `NSValue` using e.g. `@(value)` and the infrastructure will unwrap them.
+The values in the map are of type `id`, so if you want to pass in primitive types like `BOOL`, you have to wrap them into an `NSValue` object using e.g. `@(value)` and ComponentKit will unwrap them.
 
 ## Viewless Components
 
