@@ -43,7 +43,7 @@ That's all there is to it. The infrastructure does this for us:
 
 ## Primitive Arguments
 
-The values in the map are of type `id`, so if you want to pass in primitive types like `BOOL`, you have to wrap them into a `NSNumber` using `@(value)` and the infrastructure will unwrap them.
+The values in the map are of type `id`, so if you want to pass in primitive types like `BOOL`, you have to wrap them into a `NSValue` using e.g. `@(value)` and the infrastructure will unwrap them.
 
 ## Viewless Components
 
