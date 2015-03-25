@@ -11,8 +11,6 @@ ComponentKit takes a takes a functional, declarative approach to building UI. It
 
 The framework was built to power Facebook's News Feed and is now used throughout the Facebook app. We introduced ComponentKit at the <a href="https://www.facebook.com/atscale2014">@Scale Conference</a> in September:
 
-<iframe frameborder="0" allowfullscreen width="100%" height="320" src="https://www.youtube.com/embed/mLSeEoC6GjU?start=1494&modestbranding=1"></iframe>
-
-<p></p>
+<iframe style="margin-top: 1em; margin-bottom: 1em;" frameborder="0" allowfullscreen width="100%" height="320" src="https://www.youtube.com/embed/mLSeEoC6GjU?start=1494&modestbranding=1"></iframe>
 
 Sounds good? Let's [get started](/docs/getting-started.html)!
