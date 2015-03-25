@@ -4,9 +4,7 @@ layout: docs
 permalink: /docs/components-cant-be-delegates.html
 ---
 
-Remember the analogy made in [Philosophy](philosophy.html): components are like a stencil. They are an immutable snapshot of how a view should be configured at a given moment in time.
-
-Every time something changes, an entirely new component is created and the old one is thrown away. This means components are **short-lived**, and their lifecycle is not under your control. Thus they should not be delegates or `NSNotification` observers.
+Components are **short-lived**, and their lifecycle is not under your control. Thus they should not be delegates or `NSNotification` observers.
 
 An example: imagine you're showing a `UIAlertView`. You might be tempted to make the component the delegate:
 
