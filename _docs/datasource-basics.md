@@ -4,12 +4,16 @@ layout: docs
 permalink: /docs/datasource-basics.html
 ---
 
-We will assume a simple setup with a `UIViewController` using a `UICollectionView` that uses a `UICollectionViewFlowLayout`.
-### Setup
-#### Component Provider
-The datasource is responsible for creating a component corresponding to each model.
+In this section we will go through the different basic steps associated to the creation of a `UICollectionView` powered by components.
 
-This transformation should be defined as a method on a class conforming to `CKComponentProviding`. This class will then be passed to the `CKCollectionViewDataSource` as the component provider, and the datasource will call the provide every time it needs to generate a component for a model.
+We will assume a simple setup with a `UIViewController` using a `UICollectionView` that uses a `UICollectionViewFlowLayout`.
+
+### Setup
+
+#### Component Provider
+The `CKCollectionViewDataSource` is responsible for creating a component corresponding to each model.
+
+This transformation should be defined as a method on a class conforming to `CKComponentProviding`. This class will then be passed to the `CKCollectionViewDataSource` as the component provider, and the datasource will call the provider every time it needs to generate a component for a model.
 
 Let's make our UIViewController be the component provider here.
 
