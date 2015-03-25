@@ -4,7 +4,7 @@ layout: docs
 permalink: /docs/debugging.html
 ---
 
-When working with ComponentKit, you would generally uses generic views such as `UIButton`, `UIImageView`, etc. under the hood. Hence, when you run a command in the LLDB debugger like [Chisel's](http://www.github.com/facebook/chisel) `pviews` you're likely to get a very generic view hierarchy that gives no information about any component. The following is the output of running `pviews` for an application using ComponentKit.
+When working with ComponentKit, you would generally uses generic views such as `UIButton`, `UIImageView`, etc. under the hood. Hence, when you run a command in the LLDB debugger like [Chisel's](http://www.github.com/facebook/chisel) `pviews` you'll see a generic view hierarchy with no information about components. The following is the output of running `pviews` for an application using ComponentKit.
 
 ```
 | <UICollectionView: 0x7caf3800; frame = (0 0; 320 568); clipsToBounds = YES; autoresize = W+H; gestureRecognizers = <NSArray: 0x7b462e50>; layer = <CALayer: 0x7b462a80>; contentOffset: {0, 315}; contentSize: {320, 5951}> collection view layout: <UICollectionViewFlowLayout: 0x7ae60ab0>
@@ -26,7 +26,7 @@ When working with ComponentKit, you would generally uses generic views such as `
 |    | <UIImageView: 0x7b466e30; frame = (314.5 413.5; 2.5 47); alpha = 0; opaque = NO; autoresize = LM; userInteractionEnabled = NO; layer = <CALayer: 0x7b466eb0>>
 ```
 
-As you can see, this is very generic and it is almost impossible to get back to the component from this view output. Hence, we have created a set of debugging tools that help you achieve that simply.
+ComponentKit includes a set of debugging tools that help you debug component hierarchies.
 
 <div class="note-important">
   The following functionality is intended for debugging only and is not suitable for use in production.
@@ -34,13 +34,13 @@ As you can see, this is very generic and it is almost impossible to get back to 
 
 ## Print Component Hierarchy 
 
-ComponentKit comes with helpers to print the component hierarchy. When running the application, in the debug console you can type
+Type the following in the debugger to print the component hierarchy:
 
 ```
 (lldb) po [CKComponentHierarchyDebugHelper componentHierarchyDescription]
 ```
 
-This allows you to print the component hierarchy, including layout information like position and size. It is designed to be analogous to how `pviews` works. It is the easiest way to reason about where your layout might have gone wrong while looking at the component rendered on screen. 
+This includes layout information like position and size. It is designed to be analogous to how `pviews` works. It is the easiest way to reason about where your layout might have gone wrong while looking at the component rendered on screen. 
 
 ```
 For View: <UIView: 0x7b249f70; frame = (0 0; 320 355.5); gestureRecognizers = <NSArray: 0x7b544aa0>; layer = <CALayer: 0x7b249fe0>>
@@ -77,7 +77,7 @@ This method takes in a view from where to begin its search and the search can be
 
 ## Visually Debug Components
 
-ComponentKit has helpers to set up debug views, which are phantom views for components which originally don't have any views. To enable debug mode,
+ComponentKit has helpers to set up debug views, which are phantom views for components which usually wouldn't create any view. To enable debug mode:
 
 ```
 (lldb) e (void)[CKComponentDebugController setDebugMode:YES]
