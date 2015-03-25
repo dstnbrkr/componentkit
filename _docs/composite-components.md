@@ -17,7 +17,7 @@ For example, imagine you're implementing a button to share an article in a newsr
 {
   return [super newWithComponent:
           [CKButtonComponent
-           newWithTitles:{{UIControlStateNormal, @"Share"}}
+           newWithTitles:...
            titleColors:...]];
 }
 
