@@ -7,7 +7,7 @@ permalink: /docs/datasource-gotchas.html
 
 ## Lifecycle
 
-The lifecycle of the datasource should match the life-cyle of the collection view or table view it is used with. You might otherwise end up with the content of your list view being out of sync with the internal state of the datasource and this most probably will cause a crash eventually.
+The lifecycle of the datasource should match the lifecycle of the collection view or table view it is used with. You might otherwise end up with the content of your list view being out of sync with the internal state of the datasource and this will cause a crash eventually.
 
 ## The datasource involves asynchronous operations
 
