@@ -4,7 +4,7 @@ layout: docs
 permalink: /docs/component-controllers.html
 ---
 
-Remember the analogy made in the [Introduction](introduction.html): components are like a stencil. They are an immutable snapshot of how a view should be configured at a given moment in time.
+Remember the analogy made in [Philosophy](philosophy.html): components are like a stencil. They are an immutable snapshot of how a view should be configured at a given moment in time.
 
 Every time something changes, an entirely new component is created and the old one is thrown away. This means components are **short-lived**, and their lifecycle is not under your control.
 

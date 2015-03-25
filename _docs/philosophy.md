@@ -1,7 +1,7 @@
 ---
-title: Introduction
+title: Philosophy
 layout: docs
-permalink: /docs/introduction.html
+permalink: /docs/philosophy.html
 ---
 
 Components are immutable objects that specify how to configure views.
