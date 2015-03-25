@@ -4,7 +4,7 @@ layout: docs
 permalink: /docs/build-collectionview-using-componentkit.html
 ---
 
-We will assume a simple setup with a `UIViewController` holding on a `UICollectionView` using a regular `UICollectionViewFlowLayout`.
+We will assume a simple setup with a `UIViewController` using a `UICollectionView` using a regular `UICollectionViewFlowLayout`.
 ## Setup
 ### Component Provider
 The datasource creates the components corresponding to a model, to do so it needs to know how to transform a certain model into a component tree. This transformation should be defined as a class method on a class conforming to `CKComponentProviding` that we will then be passed as the component provider.
