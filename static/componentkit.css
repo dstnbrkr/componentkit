@@ -239,12 +239,12 @@ header.topbar nav ul {
 header.topbar nav ul li {
     display: inline;
     text-transform: uppercase;
+    font-weight: bold;
 }
 
 header.topbar nav ul li a {
     padding: 0 8px;
     text-transform: uppercase;
-    letter-spacing: 1px;
     line-height: 50px;
     display: inline-block;
     height: 50px;
@@ -271,6 +271,9 @@ header.hero .width {
     text-align: center;
 }
 
+footer.copyright .width {
+    text-align: center;
+}
 header.hero h1 {
     font-size: 4em;
     font-weight: normal;
