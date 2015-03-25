@@ -6,6 +6,7 @@
 - title: Reference
   items:
   - component-api
+  - composite-components
   - views
   - layout
   - responder-chain
