@@ -1,9 +1,9 @@
 - title: Quick Start
   items:
   - getting-started
-  - tutorial
   - philosophy
   - uses
+  - tutorial
 - title: Reference
   items:
   - component-api
