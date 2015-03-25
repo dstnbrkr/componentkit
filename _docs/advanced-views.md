@@ -13,7 +13,13 @@ But of course, not all views can be created with `-initWithFrame:`. For these ca
 CKComponentViewClass(UIView *(*factory)(void));
 ```
 
-This allows you to use almost any view with ComponentKit. 
+This allows you to use almost any view with ComponentKit. Here's one example:
+
+```objc++
+static AuthorView *authorViewForOscarWilde(void) {
+  return [[AuthorView alloc] initWithName:@"Oscar Fingal O'Flahertie Wills Wilde"];
+}
+```
 
 <div class="note-important">
   <p> 
