@@ -43,7 +43,7 @@ As you can see, this is very generic and it is almost impossible to get back to 
 
 ComponentKit comes with helpers to print the component hierarchy. When running the application, in the debug console you can type
 
-```lldb
+```
 (lldb) po [CKComponentHierarchyDebugHelper componentHierarchyDescription]
 ```
 
@@ -70,7 +70,7 @@ For View: <UIView: 0x7b249f70; frame = (0 0; 320 355.5); gestureRecognizers = <N
 
 Optionally you can use:
 
-```lldb
+```
 (lldb) po [CKComponentHierarchyDebugHelper componentHierarchyDescriptionForView:0x7be52100 searchUpwards:NO]
 ```
  
