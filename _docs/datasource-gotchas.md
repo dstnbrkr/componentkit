@@ -54,9 +54,9 @@ Now let's look at what could go wrong if we query another source of data.
 
 #### Don't ask the the list view for the position of the next insertion
 
-The list view gives you the current state of what is displayed on the screen, but it doesn't include what is potentially currently being computed in the background. To get this information you need to maintain state that is updated at the same time as a changeset is enqueued.
+The datasource gives you the current state of what is displayed on the screen, but it doesn't include what is potentially currently being computed in the background. To get this information you need to maintain state that is updated at the same time as a changeset is enqueued.
 
-Let's look at this buggy code.
+Let's look at this buggy code that uses the datasource to compute the insertion index.
 
 {% highlight objc++ cssclass=redhighlight %}
 {% raw  %}
@@ -74,7 +74,24 @@ Let's look at this buggy code.
   // so numberOfItemsInSection returns 1, C will be inserted at index 1 and we will end up
   // with a list view displaying [A, C, B]
   Items.insert({0, _datasource.collectionView numberOfItemsInSection});
-  // Items.insert({0, [_listOfModels count] ? [_listOfModels count] -1 : 0}); would have inserted properly C at index 2
+  // Enqueue the changeset asynchronously in the datasource
+  [_datasource enqueueChangeset:{{}, items}];
+}
+{% endraw  %}
+{% endhighlight %}
+
+In `-insertAtTail` we should check `_listOfModels` instead to compute the insertion index.
+
+{% highlight objc++ %}
+{% raw  %}
+- (void)insertAtTail:(id)model {
+// We first add the new model (C) at the end of _listOfModels which already contains (A) et (B)
+    // [A, B] -> [A, B, C]
+  [_listOfModels addObject:model];
+  CKArrayControllerInputItems items;
+  // We properly insert C at index 2
+  Items.insert({0, _datasource.collectionView numberOfItemsInSection});
+  Items.insert({0, [_listOfModels count] ? [_listOfModels count] -1 : 0});
   // Enqueue the changeset asynchronously in the datasource
   [_datasource enqueueChangeset:{{}, items}];
 }
