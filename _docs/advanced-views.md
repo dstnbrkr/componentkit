@@ -19,6 +19,8 @@ This allows you to use almost any view with ComponentKit. Here's one example:
 static AuthorView *authorViewForOscarWilde(void) {
   return [[AuthorView alloc] initWithName:@"Oscar Fingal O'Flahertie Wills Wilde"];
 }
+// ...
+[CKComponent newWithView:CKComponentViewClass(authorViewForOscarWilde) size:{50, 50}]
 ```
 
 <div class="note-important">
