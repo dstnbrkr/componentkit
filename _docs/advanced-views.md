@@ -20,7 +20,7 @@ static AuthorView *authorViewForOscarWilde(void) {
   return [[AuthorView alloc] initWithName:@"Oscar Fingal O'Flahertie Wills Wilde"];
 }
 // ...
-[CKComponent newWithView:CKComponentViewClass(authorViewForOscarWilde) size:{50, 50}]
+[CKComponent newWithView:{&authorViewForOscarWilde} size:{50, 50}]
 ```
 
 <div class="note-important">
