@@ -4,16 +4,16 @@ layout: docs
 permalink: /docs/datasource-basics.html
 ---
 
-In this section we will go through the different basic steps associated to the creation of a `UICollectionView` powered by components.
+In this section we will go through the steps to create a `UICollectionView` powered by components.
 
-We will assume a simple setup with a `UIViewController` using a `UICollectionView` that uses a `UICollectionViewFlowLayout`.
+We will use a simple setup with a `UIViewController` using a `UICollectionView` that uses a `UICollectionViewFlowLayout`.
 
 ### Setup
 
 #### Component Provider
-The `CKCollectionViewDataSource` is responsible for creating a component corresponding to each model.
+The `CKCollectionViewDataSource` is responsible for transforming each model into a component.
 
-This transformation should be defined as a method on a class conforming to `CKComponentProviding`. This class will then be passed to the `CKCollectionViewDataSource` as the component provider, and the datasource will call the provider every time it needs to generate a component for a model.
+This transformation will be defined as a method on a class conforming to `CKComponentProviding`. This class will then be passed to the `CKCollectionViewDataSource` as the component provider and the datasource will call the provider every time it needs to generate a component for a model.
 
 Let's make our UIViewController be the component provider here.
 
@@ -36,7 +36,7 @@ Let's make our UIViewController be the component provider here.
  </p>
 </div>
 
-- **Why use a class Method and not a block?** The model to component transform should be pure. The thing is, blocks makes it very easy to capture mutable state that could introduce side effects in the system. Using a class method allows to better enforce the constraint of purity from an API standpoint.
+- **Why use a class Method and not a block?** The model to component transform should not rely on mutable state. Blocks make it very easy to capture mutable state that could introduce side effects in the system. Using a class method allows to better enforce the constraint of immutability from an API standpoint.
 - **What is this context ?** The context is an arbitrary immutable object, that is passed to this method by the `CKCollectionViewDataSource`. Typically, the context can be used to pass into your component tree:
 	* immutable contextual informations such as the type of device.
 	* external dependencies such as an image downloader.
@@ -62,14 +62,14 @@ Ok, so now we have our view controller as the component provider, let's create o
 ```
 
 
-Note that we pass the context in the initializer, it is the same context that  will then get passed into `+ (CKComponent *)componentForModel:context:` every time a component needs to be computed.
+Note that we pass the context in the initializer. It is the same context that will get passed into `+ (CKComponent *)componentForModel:context:` every time a component needs to be computed.
 
 ### Add/Modify content in the collection view
 
 #### Changeset API
-Using `CKCollectionViewDataSource` changes are never applied directly to the collection. Instead commands are sent to the datasource, and from those commands it will then compute the components and apply the corresponding changes to the collection view.
+Using `CKCollectionViewDataSource` changes are never applied directly to the collection. Instead, commands are sent to the datasource and from those commands will be used to compute the components and apply the corresponding changes to the collection view.
 
-Let's add a section at index 0 and two items in this section at index 0 and 1.
+Let's add a section at index 0 with two items at indexes 0 and 1.
 
 ```objc++
 {% raw  %}
