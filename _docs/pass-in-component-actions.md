@@ -5,13 +5,13 @@ permalink: /docs/pass-in-component-actions.html
 ---
 Follow this simple rule: `CKComponentAction` selectors should be implemented in the same file they are referenced.
 
-The following counterexample establishes a hidden coupling between the parent and child component. If another component tries to use `CKChildComponent` or if the method is renamed in `CKParentComponent`, it will crash at runtime.
+The following counterexample establishes a hidden coupling between the parent and child component. If another component tries to use `ChildComponent` or if the method is renamed in `ParentComponent`, it will crash at runtime.
 
 {% highlight objc++ cssclass=redhighlight %}
-@implementation CKParentComponent
+@implementation ParentComponent
 + (instancetype)new
 {
-  return [super newWithComponent:[CKChildComponent new]];
+  return [super newWithComponent:[ChildComponent new]];
 }
 
 - (void)someAction:(CKComponent *)sender
@@ -20,7 +20,7 @@ The following counterexample establishes a hidden coupling between the parent an
 }
 @end
 
-@implementation CKChildComponent
+@implementation ChildComponent
 + (instancetype)new
 {
   return [super newWithComponent:
@@ -34,11 +34,11 @@ Instead, always pass selectors from parents to children. In the following exampl
 
 ```objc++
 
-@implementation CKParentComponent
+@implementation ParentComponent
 + (instancetype)new
 {
   return [super newWithComponent:
-          [CKChildComponent
+          [ChildComponent
            newWithAction:@selector(someAction:)]];
 }
 
@@ -48,7 +48,7 @@ Instead, always pass selectors from parents to children. In the following exampl
 }
 @end
 
-@implementation CKChildComponent
+@implementation ChildComponent
 + (instancetype)newWithAction:(CKComponentAction)action
 {
   return [super newWithComponent:

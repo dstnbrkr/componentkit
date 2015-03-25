@@ -9,7 +9,7 @@ Avoid doing this:
 {% highlight objc++ cssclass=redhighlight %}
 std::vector<CKStackLayoutComponentChild> children;
 if (someSetting) {
-  children.push_back({[CKHeaderComponent newWithModel:model});
+  children.push_back({[HeaderComponent newWithModel:model});
 }
 if (fooComponent) {
   children.push_back({fooComponent});
@@ -37,7 +37,7 @@ return [super newWithComponent:
          size:{}
          style:{}
          children:{
-           {someSetting ? [CKHeaderComponent newWithModel:model] : nil},
+           {someSetting ? [HeaderComponent newWithModel:model] : nil},
            {fooComponent},
          }]];
 ```

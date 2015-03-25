@@ -11,9 +11,9 @@ A simple analogy is to think of a component as a stencil: a fixed description th
 Let's see some sample code for rendering an article in a news app:
 
 ```objc++
-@implementation CKArticleComponent
+@implementation ArticleComponent
 
-+ (instancetype)newWithArticle:(CKArticleModel *)article
++ (instancetype)newWithArticle:(ArticleModel *)article
 {
   return [super newWithComponent:
           [CKStackLayoutComponent
@@ -23,9 +23,9 @@ Let's see some sample code for rendering an article in a news app:
              .direction = CKStackLayoutDirectionVertical,
            }
            children:{
-             {[CKHeaderComponent newWithArticle:article]},
-             {[CKMessageComponent newWithMessage:article.message]},
-             {[CKFooterComponent newWithFooter:article.footer]},
+             {[HeaderComponent newWithArticle:article]},
+             {[MessageComponent newWithMessage:article.message]},
+             {[FooterComponent newWithFooter:article.footer]},
            }];
 }
 
@@ -38,4 +38,4 @@ Components have three characteristics:
 
 - **Functional**: Data flows in one direction. Methods take data models and return totally immutable components. When state changes, ComponentKit re-renders from the root and reconciles the two component trees from the top with as few changes to the view hierarchy as possible.
 
-- **Composable**: Here `CKFooterComponent` is used in a article, but it could be reused for other UI with a similar footer. Reusing it is a one-liner. `CKStackLayoutComponent` is inspired by the [flexbox model](http://www.w3.org/TR/css3-flexbox) of the web and can easily be used to implement many layouts.
+- **Composable**: Here `FooterComponent` is used in a article, but it could be reused for other UI with a similar footer. Reusing it is a one-liner. `CKStackLayoutComponent` is inspired by the [flexbox model](http://www.w3.org/TR/css3-flexbox) of the web and can easily be used to implement many layouts.

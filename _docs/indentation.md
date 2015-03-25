@@ -19,20 +19,20 @@ Because components are often deeply nested structures, it's rarely possible to f
 This is hard to read:
 
 {% highlight objc++ cssclass=redhighlight %}
-  CKHeaderComponent *header = [CKHeaderComponent newWithTitle:@"Hello world"
-                                            subtitleComponent:[SubtitleComponent newWithSubtitle:subtitle
-                                                                                       image:image]
-                                                        image:image];
+HeaderComponent *header = [HeaderComponent newWithTitle:@"Hello world"
+                                      subtitleComponent:[SubtitleComponent newWithSubtitle:subtitle
+                                                                                     image:image]
+                                                  image:image];
 {% endhighlight %}
 
 <p>Much better:</p>
 
 {% highlight objc++ %}
-CKFeedHeaderComponent *header =
-[CKHeaderComponent
+HeaderComponent *header =
+[HeaderComponent
  newWithTitle:@"Hello world"
  subtitleComponent:
- [CKSubtitleComponent
+ [SubtitleComponent
   newWithSubtitle:subtitle
   image:image]
  image:image];
@@ -52,10 +52,10 @@ As the *only* special case, you should generally write `super newWithComponent:`
 
 ```objc++
 return [super newWithComponent:
-        [CKHeaderComponent
+        [HeaderComponent
          newWithTitle:@"Hello world"
          subtitleComponent:
-         [CKSubtitleComponent
+         [SubtitleComponent
           newWithSubtitle:subtitle
           image:image]
          image:image]];

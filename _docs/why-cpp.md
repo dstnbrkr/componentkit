@@ -13,9 +13,9 @@ Here again is a generic article component:
   .direction = CKStackLayoutComponentDirectionVertical,
  } 
  children:{
-   {[CKHeaderComponent newWithArticle:article]},
-   {[CKMessageComponent newWithArticle:article]},
-   {[CKFooterComponent newWithArticle:article]},
+   {[HeaderComponent newWithArticle:article]},
+   {[MessageComponent newWithArticle:article]},
+   {[FooterComponent newWithArticle:article]},
  }];
 ```
 
@@ -27,15 +27,15 @@ Here's what it might look like in pure Objective-C:
                                                                                  alignItems:CKStackLayoutComponentAlignItemsStart
                                                                                     spacing:0]
                             children:@[
-  [CKStackLayoutComponentChild childWithComponent:[CKHeaderComponent newWithArticle:article]
+  [CKStackLayoutComponentChild childWithComponent:[HeaderComponent newWithArticle:article]
                                        topPadding:0
                                       leftPadding:0
                                     bottomPadding:0],
-  [CKStackLayoutComponentChild childWithComponent:[CKMessageComponent newWithArticle:article]
+  [CKStackLayoutComponentChild childWithComponent:[MessageComponent newWithArticle:article]
                                        topPadding:0
                                       leftPadding:0
                                     bottomPadding:0],
-  [CKStackLayoutComponentChild childWithComponent:[CKFooterComponent newWithArticle:article]
+  [CKStackLayoutComponentChild childWithComponent:[FooterComponent newWithArticle:article]
                                        topPadding:0
                                       leftPadding:0
                                     bottomPadding:0]

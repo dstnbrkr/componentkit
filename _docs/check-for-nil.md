@@ -9,14 +9,14 @@ Remember: **`+new` can always return nil**. ComponentKit adopts the convention t
 This is important when you are implementing `+new`; you must check if `[super +new...]` returned nil before assigning to ivars.
 
 {% highlight objc++ cssclass=redhighlight %}
-@implementation CKMyComponent
+@implementation MyComponent
 {
   NSString *_name;
 }
 
 + (instancetype)newWithName:(NSString *)name
 {
-  CKMyComponent *c = [super newWithComponent:...];
+  MyComponent *c = [super newWithComponent:...];
   c->_name = [name copy]; // Crashes if c is nil
   return c;
 }
@@ -28,7 +28,7 @@ Instead:
 
 + (instancetype)newWithName:(NSString *)name
 {
-  CKMyComponent *c = [super newWithComponent:...];
+  MyComponent *c = [super newWithComponent:...];
   if (c) {
     c->_name = [name copy];
   }

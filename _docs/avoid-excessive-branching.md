@@ -11,9 +11,9 @@ Avoid excessive branching in component code; it hurts readability.
 {
   CKComponent *headerComponent;
   if (article.featured) {
-    headerComponent = [CKFeaturedArticleHeaderComponent newWithArticle:article];
+    headerComponent = [FeaturedArticleHeaderComponent newWithArticle:article];
   } else {
-    headerComponent = [CKRegularArticleHeaderComponent newWithArticle:article];
+    headerComponent = [RegularArticleHeaderComponent newWithArticle:article];
   }
 
   UIEdgeInsets insets = {10, 10, 10, 10};
@@ -30,7 +30,7 @@ Avoid excessive branching in component code; it hurts readability.
            style:{}
            children:{
              {headerComponent},
-             {[CKArticleTextComponent
+             {[ArticleTextComponent
                newWithArticle:article 
                insets:insets
                imageSize:imageSize]},
@@ -50,9 +50,9 @@ If you find yourself branching too much, consider separating your component into
            style:{}
            children:{
              // Encapsulates the choice of Featured or Regular header:
-             {[CKArticleHeaderComponent newWithArticle:article]},
+             {[ArticleHeaderComponent newWithArticle:article]},
              // Encapsulates insets and image size:
-             {[CKArticleBodyComponent newWithArticle:article]},
+             {[ArticleBodyComponent newWithArticle:article]},
            }]]
 }
 ```

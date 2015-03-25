@@ -23,7 +23,7 @@ Note that a component is not a subclass of `UIResponder` and it cannot become th
 The easiest way to handle taps on `UIControl` views is to use `CKComponentActionAttribute`. It returns a component attribute that triggers a [component action](component-actions.html) when any given `UIControlEvent` occurs. For example:
 
 ```objc++
-@implementation CKSomeComponent
+@implementation SomeComponent
 
 + (instancetype)new
 {
@@ -46,7 +46,7 @@ The easiest way to handle taps on `UIControl` views is to use `CKComponentAction
 That works for `UIControls`, but what about other views? Fear not, you can use `CKComponentTapGestureAttribute`. This allows you to install a tap gesture recognizer on any `UIView` and be notified when the tap occurs.
 
 ```objc++
-@implementation CKSomeComponent
+@implementation SomeComponent
 
 + (instancetype)new
 {

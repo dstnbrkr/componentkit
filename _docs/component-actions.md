@@ -19,7 +19,7 @@ The `CKComponentActionSend` function takes an action, a sender, and an optional 
 Here's an example of how to handle a component action. (The API for `CKButtonComponent` has been simplified for this example.)
 
 ```objc++
-@implementation CKSampleComponent
+@implementation SampleComponent
 + (instancetype)new
 {
   return [super newWithComponent:

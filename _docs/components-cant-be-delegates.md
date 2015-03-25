@@ -9,7 +9,7 @@ Components are **short-lived**, and their lifecycle is not under your control. T
 An example: imagine you're showing a `UIAlertView`. You might be tempted to make the component the delegate:
 
 {% highlight objc++ cssclass=redhighlight %}
-@implementation CKAlertDisplayComponent <UIAlertViewDelegate>
+@implementation AlertDisplayComponent <UIAlertViewDelegate>
 {
   UIAlertView *_alertView;
 }
@@ -35,10 +35,10 @@ Instead, use `CKComponentController`. Component controllers are long-lived; they
 
 ```objc++
 
-@interface CKAlertDisplayComponentController : CKComponentController <UIAlertViewDelegate>
+@interface AlertDisplayComponentController : CKComponentController <UIAlertViewDelegate>
 @end
 
-@implementation CKAlertDisplayComponentController
+@implementation AlertDisplayComponentController
 {
   UIAlertView *_alertView;
 }

@@ -12,7 +12,7 @@ You should always subclass `CKCompositeComponent` when creating a component. (If
 For example, imagine that we're adding a new "highlighted" card component. It should look just like a regular card component, but have a yellow background color. Don't do this:
 
 {% highlight objc++ cssclass=redhighlight %}  
-@implementation CKHighlightedCardComponent : CKCardComponent
+@implementation HighlightedCardComponent : CardComponent
 - (UIColor *)backgroundColor
 {
   // This breaks silently if the superclass method is renamed.
@@ -21,14 +21,14 @@ For example, imagine that we're adding a new "highlighted" card component. It sh
 @end
 {% endhighlight %}
 
-Instead, make `CKCardComponent` take the color as a parameter and then subclass `CKCompositeComponent` to create your highlighted component:
+Instead, make `CardComponent` take the color as a parameter and then subclass `CKCompositeComponent` to create your highlighted component:
 
 ```objc++
-@implementation CKHighlightedCardComponent : CKCompositeComponent
+@implementation HighlightedCardComponent : CKCompositeComponent
 + (instancetype)newWithArticle:(CKArticle *)article
 {
   return [super newWithComponent:
-          [CKCardComponent
+          [CardComponent
            newWithArticle:article
            backgroundColor:[UIColor yellowColor]]];
 }
