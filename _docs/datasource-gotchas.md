@@ -7,7 +7,7 @@ permalink: /docs/datasource-gotchas.html
 
 ## Don't forget the initial section
 
-A datasource will initially be totally empty (no items and no sections). Inserting items in section 0 before inserting the section 0 will raise an exception.
+A datasource will initially be totally empty (no items and no sections). Inserting items in section 0 before inserting section 0 will cause an exception to be raised.
 
 {% highlight objc++ cssclass=redhighlight %}
 {% raw  %}
@@ -32,8 +32,8 @@ items.insert({0, 0}, @"Hello");
 
 <div class="note">
  <p>
- Why not having one section by default ? Because implicit/default behaviors can be confusing.
- For instance let's say that the default behavior was implemented but not documented, it would be very confusing that inserting a section at index 0 on a newly created datasource will actually cause it to have two sections (we already have the one created by default).
+ Why not have one section by default? Because implicit/default behaviors can be confusing.
+ If that behavior was implemented as a default but not documented, it would be very confusing when inserting a section at index 0 on a newly created datasource will actually cause it to have two sections (we already have the one created by default).
  Obviously documentation would make things better but it's easy to miss a piece of documentation...
  </p>
 </div>
@@ -48,9 +48,9 @@ The lifecycle of the datasource should match the lifecycle of the collection vie
 
 #### Always ask the datasource for the model corresponding to an index path
 
-The datasource maintains an internal data-structure which is the only source of truth for the corresponding `UICollectionView` or `UITableView`. For this reason you should query the datasource to get information associated to a certain indexPath, any other source of data may be out of sync with the current state of the list view.
+The datasource maintains an internal data structure which is the only source of truth for the corresponding `UICollectionView` or `UITableView`. For this reason you should query the datasource to get information associated with a certain indexPath. Any other source of data may be out of sync with the current state of the list view.
 
-For instance to access the model associated to a certain index path using a `CKCollectionViewDataSource` you can use :
+For instance to access the model associated to a certain index path using a `CKCollectionViewDataSource` you can use:
 
 ```objc++
 [datasource objectAtindexPath:indexPath];
@@ -70,13 +70,13 @@ Now let's look at what could go wrong if we query another source of data.
     // [A] -> [B, A]
   [_listOfModels insertObject:model atIndex:0];
   CKArrayControllerInputItems items;
-  Items.insert({0, 0});
+  items.insert({0, 0});
   // Enqueue the changeset asynchronously in the datasource
   [_datasource enqueueChangeset:{{}, items}];
 }
 
 - (void)didSelectitemAtIndexPath:(NSIndexPath *)indexPath {
-// At the same time the user taps on the cell that represents A, and that is still located at the indexPath (0,0)
+// At the same time the user taps on the cell that represents A, which is still located at the indexPath (0,0)
 // as the changeset has not finished computing yet.
 // Ouch we actually get B, list of models and the collection view are out of sync
 [_listOfModels objectAtIndex:indexPath.row];
