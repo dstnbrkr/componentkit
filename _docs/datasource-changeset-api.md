@@ -1,10 +1,8 @@
 ---
-title: Changesets
+title: Changeset API
 layout: docs
-permalink: /docs/changeset-api.html
+permalink: /docs/datasource-changeset-api.html
 ---
-
-## Changeset API
 
 Changesets are how you interact with the datasource, they allow you to "enqueue" sets of commands and have them processed by the datasource.
 
@@ -34,9 +32,9 @@ sections.insert(3);
 [datasource enqueueChangeset:{sections, items}];
 ```
 
-### Order of application
+## Order in which changes are applied.
 
-The order in which commands are added to the changeset doesn't define the order in which they will internally be applied to the `CKComponentDataSource` and then to a UITableView or UICollectionView. The order of application follow the same rules as for batch updates on UITableView or UICollectionView :
+The order in which commands are added to the changeset doesn't define the order in which they will internally be applied to the `CKComponentDataSource` and then to a `UITableView` or `UICollectionView`. The order of application follow the same rules as for batch updates on UITableView or UICollectionView :
 
 - **Deletions and Updates are applied first using the current index space.**
 - **Insertions are then applied in the index post deletions and updates (updates obviously won't modify the index space though).**

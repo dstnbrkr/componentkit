@@ -13,7 +13,7 @@ The lifecycle of the datasource should match the lifecycle of the collection vie
 
 **Each changeset is computed asynchronously** by `CKComponentDatasource`, therefore the corresponding changes are not reflected immediately on the corresponding `UITableView` or `UICollectionView` and it is important to be careful about sources of data being out of sync.
 
-### Always ask the datasource for the model corresponding to an index path
+#### Always ask the datasource for the model corresponding to an index path
 
 The datasource maintains an internal data-structure which is the only source of truth for the corresponding `UICollectionView` or `UITableView`. For this reason you should query the datasource to get information associated to a certain indexPath, any other source of data may be out of sync with the current state of the list view.
 
@@ -52,7 +52,7 @@ Now let's look at what could go wrong if we query another source of data.
 {% endraw  %}
 {% endhighlight %}
 
-### Don't ask the the list view for the position of the next insertion
+#### Don't ask the the list view for the position of the next insertion
 
 The list view gives you the current state of what is displayed on the screen, but it doesn't include what is potentially currently being computed in the background. To get this information you need to maintain state that is updated at the same time as a changeset is enqueued.
 

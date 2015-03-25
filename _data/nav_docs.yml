@@ -20,12 +20,11 @@
   - debugging
 - title: Collection Views
   items:
-  - introducing-datasources
-  - build-collectionview-using-componentkit
-  - changeset-api
+  - datasource-overview
+  - datasource-basics
+  - datasource-changeset-api
   - datasource-gotchas
-  - ckcomponentdatasource-explained
-  - use-ckcomponendatasource-directly
+  - datasource-dive-deeper
 - title: Best Practices
   items:
   - never-subclass-components
