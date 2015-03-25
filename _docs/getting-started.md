@@ -8,3 +8,5 @@ permalink: /docs/getting-started.html
   This guide assumes you have <a href="http://cocoapods.org/" alt="CocoaPods">Cocoapods</a> installed.
 </div>
 
+The best way to get started is by building stuff.
+
