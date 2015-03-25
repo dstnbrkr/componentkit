@@ -171,14 +171,14 @@ ul, ol {
 
 a {
     text-decoration: none;
-    color: #CC2E39;
+    color: #1D9CC7;
 }
 
 nav.toc a {
     color: #444;
 }
 nav.toc a.active {
-    color: #CC2E39;
+    color: #1D9CC7;
 }
 
 a.hash-link {
@@ -186,7 +186,7 @@ a.hash-link {
 }
 
 a.hash-link:hover {
-    color: #CC2E39;
+    color: #1D9CC7;
 }
 
 .width {
@@ -216,17 +216,16 @@ header.topbar {
 }
 
 header.topbar .logo {
+    margin-top: 9px;
     height: 30px;
-    margin-top: 7px;
 }
 
 .componentkit-header {
     background-image: url(componentkit-hero-logo.png);
-    background-size: contain;
+    background-size: 660px;
     background-position: 50% 50%;
     background-repeat: no-repeat;
-    height: 400px;
-    margin-bottom: 15px;
+    height: 280px;
 }
 
 header.topbar nav ul {
@@ -255,12 +254,12 @@ header.topbar nav ul li a {
 
 header.topbar nav ul li a.active {
     color: #FFF;
-    border-bottom: 3px solid #FBE178;
+    border-bottom: 3px solid #26C6DA;
     background: #333;
 }
 
 header.topbar nav ul li a:hover {
-    background: #FBE178;
+    background: #26C6DA;
     color: #353331;
 }
 
@@ -281,19 +280,20 @@ header.hero h1 {
 }
 
 header.hero p {
-    margin: 0 0 .5em;
-    text-transform: uppercase;
+    font-size: 1.4em;
+    margin-bottom: 40px;
 }
 
 header.hero a.button {
-    background: #3399FF;
+    background-color: #20AECF;
+    border: 1px solid #1D9CC8; 
+    border-radius: 3px;
     color: #ffffff;
     font-weight: bold;
     text-transform: uppercase;
     padding: 10px 20px;
     display: inline-block;
     margin: 1em;
-    box-shadow: 0px 1px 2px rgba(0,0,0,0.3);
 }
 
 header.subhero {
@@ -420,57 +420,6 @@ footer {
 .right a {
     color: #cd4e34;
     padding: 0 5px;
-}
-
-.playgroundCode, .playgroundPreview {
-    border-left: 4px solid #D68B00;
-    margin-left: 20px;
-    background-color: rgba(226, 141, 50, 0.1);;
-}
-
-.playgroundError {
-    padding: 10px;
-}
-
-.playgroundPreview {
-    margin-top: 10px;
-    margin-bottom: 200px;
-}
-
-.playground > :first-child {
-    display: none;
-}
-
-.cm-keyword, .cm-atom {
-    font-weight: bold;
-}
-
-.cm-number {
-    color: #099;
-}
-
-.cm-string {
-    color: #D01040;
-}
-
-.cm-comment {
-    color: #998;
-    font-style: italic;
-}
-
-.CodeMirror-code {
-    line-height: 20px;
-}
-.CodeMirror-cursor {
-    margin-top: 4px;
-}
-div.CodeMirror-lines {
-    padding: 5px 0;
-}
-
-
-#\_ {
-    display: none;
 }
 
 .hash {
