@@ -5,7 +5,7 @@ id: home
 hero: true
 ---
 
-ComponentKit is a view framework for iOS that is heavily inspired by React. 
+ComponentKit is a view framework for iOS that is heavily inspired by [React](http://facebook.github.io/react/). 
 
 ComponentKit takes a takes a functional, declarative approach to building UI. It lets you focus on what your UI should look like, not the steps necessary to build it. It emphasizes a one-way data flow from _immutable models_ to _immutable components_ that describe how views should be configured and does the heavy-lifting of building a view hierarchy from this description.
 
