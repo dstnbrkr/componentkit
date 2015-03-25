@@ -1,10 +1,15 @@
 ---
-title: Good Practices
+title: Gotchas
 layout: docs
-permalink: /docs/good-practices-datasources.html
+permalink: /docs/datasource-gotchas.html
 ---
 
-## Don't forget that the datasource involves asynchronous operations
+
+## Lifecycle
+
+The lifecycle of the datasource should match the life-cyle of the collection view or table view it is used with. You might otherwise end up with the content of your list view being out of sync with the internal state of the datasource and this most probably will cause a crash eventually.
+
+## The datasource involves asynchronous operations
 
 **Each changeset is computed asynchronously** by `CKComponentDatasource`, therefore the corresponding changes are not reflected immediately on the corresponding `UITableView` or `UICollectionView` and it is important to be careful about sources of data being out of sync.
 
@@ -20,7 +25,7 @@ For instance to access the model associated to a certain index path using a `CKC
 
 Now let's look at what could go wrong if we query another source of data.
 
-```objc++
+{% highlight objc++ cssclass=redhighlight %}  
 {% raw  %}
 @implementation MyAwesomeController {
     CKComponentCollectionViewDataSource *_datasource;
@@ -45,7 +50,7 @@ Now let's look at what could go wrong if we query another source of data.
 // [_datasource modelForItemAtIndexPath:indexPath] would have properly returned A
 }
 {% endraw  %}
-```
+{% endhighlight %}
 
 ### Don't ask the the list view for the position of the next insertion
 
@@ -53,7 +58,7 @@ The list view gives you the current state of what is displayed on the screen, bu
 
 Let's look at this buggy code.
 
-```objc++
+{% highlight objc++ cssclass=redhighlight %}
 {% raw  %}
 @implementation MyAwesomeController {
     CKComponentCollectionViewDataSource *_datasource;
@@ -73,10 +78,5 @@ Let's look at this buggy code.
   // Enqueue the changeset asynchronously in the datasource
   [_datasource enqueueChangeset:{{}, items}];
 }
-
 {% endraw  %}
-```
-
-## Lifecycle
-
-The lifecycle of the datasource should match the life-cyle of the collection view or table view it is used with. You might otherwise end up with the content of your list view being out of sync with the internal state of the datasource and this most probably will cause a crash eventually.
+{% endhighlight %}

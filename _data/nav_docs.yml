@@ -21,7 +21,7 @@
   - introducing-datasources
   - build-collectionview-using-componentkit
   - changeset-api
-  - good-practices-datasources
+  - datasource-gotchas
   - ckcomponentdatasource-explained
   - use-ckcomponendatasource-directly
 - title: Best Practices
