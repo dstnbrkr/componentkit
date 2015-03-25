@@ -48,7 +48,7 @@ The quote mark is created here:
 }
 ```
 
-Delete everything between the curly braces, so that the `CKStackLayoutComponent` only has a single child. Run the app again and the quote mark is gone!
+Delete everything (including the curly braces), so that the `CKStackLayoutComponent` only has a single child. Run the app again and the quote mark is gone!
 
 <img src="/static/images/quote-after.png" width="250" height="431" alt="FrostedQuoteComponent screenshot with quote mark removed">
 
