@@ -8,7 +8,7 @@ Components are immutable objects that specify how to configure views.
 
 A simple analogy is to think of a component as a stencil: a fixed description that can be used to *paint* a view but that is not a view itself. A component is often composed of other components, building up a component hierarchy that *describes* a user interface.
 
-Let's start with some sample code for rendering an article in a news app:
+Let's see some sample code for rendering an article in a news app:
 
 ```objc++
 @implementation CKArticleComponent
