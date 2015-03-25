@@ -13,4 +13,6 @@ The framework was built to power Facebook's News Feed and is now used throughout
 
 <iframe frameborder="0" allowfullscreen width="100%" height="320" src="https://www.youtube.com/embed/mLSeEoC6GjU"></iframe>
 
-Sounds good? Let's get started!
+<p></p>
+
+Sounds good? Let's [get started](/docs/getting-started.html)!
