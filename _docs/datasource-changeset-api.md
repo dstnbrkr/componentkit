@@ -4,7 +4,7 @@ layout: docs
 permalink: /docs/datasource-changeset-api.html
 ---
 
-Changesets are how you interact with the datasource, they allow you to "enqueue" sets of commands and have them processed by the datasource.
+Changesets are how you interact with the datasource. They allow you to "enqueue" sets of commands to be processed by the datasource.
 
 
 These commands can be seen as a sentence with three parts :
@@ -57,7 +57,7 @@ items.insert(insertionIndexPath, @"Hello");
  </p>
 </div>
 
-Be wary of this fact while computing a changeset, the conventions defined in cocoa for batch updates are as follow :
+Be wary of this fact while computing a changeset, the conventions defined in Cocoa for batch updates are as follows:
 
 - **Deletions and Updates are applied first using the current index space.**
 - **Insertions are then applied in the post deletions index space (updates obviously won't modify the index space).**
