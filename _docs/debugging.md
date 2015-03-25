@@ -82,16 +82,28 @@ This method takes in a view from where to begin its search and the search can be
   </p>
 </div>
 
-## dcomponents 
+## Visually Debug Components
 
-`dcomponents` sets up debug views which are phantom views for components which originally don't have any views. Looking through the view hierarchy in Reveal gives a visual manifestation to layout and can be useful for debugging. `dcomponents` gives a sense of the component hierarchy in the view hierarchy itself, since the phantom views generated have the name of their backing components.
+ComponentKit has helpers to set up debug views, which are phantom views for components which originally don't have any views. To enable debug mode,
 
-To set the mode, use `dc -s`. To unset, `dc -u`. Again, this is based on the prefix matching provided by LLDB.
+```
+(lldb) e (void)[CKComponentDebugController setDebugMode:YES]
+```
 
-You can use either the `Xcode`'s default `Deubg View Hierarchy` tool to see the individual views:
+Looking through the view hierarchy gives a visual manifestation to layout and can be useful for debugging. Executing the `pviews` command will now give us a set of views which have the suffix `View_Debug` which denote phantom component views, we gives a sense of the component hierarchy in the view hierarchy itself, since the phantom views generated have their backing components name as their prefix.
 
-![dcomponents with Xcodel](/static/images/xcode-debug.png)
+To unset, just `setDebugMode:NO` instead.
+
+This helper really shines when you can actually see the view hierarchy, be it in Xcode or [Reveal](http://revealapp.com/) 
+
+If you use the the `Xcode`'s default `Debug View Hierarchy` tool to see the individual views:
+
+![Debug Components with Xcode](/static/images/xcode-debug.png)
 
 Or you can use [Reveal](http://revealapp.com/):
 
-![dcomponents with Reveal](/static/images/reveal-debug.png)
+![Debug Components with Reveal](/static/images/reveal-debug.png)
+
+## Chisel Integration
+
+We're in the process of adding new commands to [Chisel](http://www.github.com/facebook/chisel) for both of these functionalities, named as `pcomponents` and `dcomponents`. Coming soon.
