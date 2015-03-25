@@ -5,6 +5,39 @@ permalink: /docs/datasource-gotchas.html
 ---
 
 
+## Don't forget the initial section
+
+A datasource will initially be totally empty (no items and no sections). Inserting items in section 0 before inserting the section 0 will raise an exception.
+
+{% highlight objc++ cssclass=redhighlight %}
+{% raw  %}
+CKComponentCollectionViewDataSource datasource = [[CKComponentCollectionViewDataSource alloc] ...];
+CKArrayControllerInputItems items;
+items.insert({0, 0}, @"Hello");
+// Will raise an exception
+[datasource enqueueChangeset:{items}];
+{% endraw  %}
+{% endhighlight %}
+
+{% highlight objc++ %}
+{% raw  %}
+CKComponentCollectionViewDataSource datasource = [[CKComponentCollectionViewDataSource alloc] ...];
+CKArrayControllerInputItems items;
+CKArrayControllerSections sections;
+sections.insert(0);
+items.insert({0, 0}, @"Hello");
+[datasource enqueueChangeset:{sections, items}];
+{% endraw  %}
+{% endhighlight %}
+
+<div class="note">
+ <p>
+ *Why not having one section by default* ? Because implicit/default behaviors can be confusing.
+ For instance let's say that the default behavior was implemented but not documented, it would be very confusing that inserting a section at index 0 on a newly created datasource will actually cause it to have two sections (we already have the one created by default).
+ Obviously documentation would make things better but it's easy to miss a piece of documentation...
+ </p>
+</div>
+
 ## Lifecycle
 
 The lifecycle of the datasource should match the lifecycle of the collection view or table view it is used with. You might otherwise end up with the content of your list view being out of sync with the internal state of the datasource and this will cause a crash eventually.
@@ -90,7 +123,6 @@ In `-insertAtTail` we should check `_listOfModels` instead to compute the insert
   [_listOfModels addObject:model];
   CKArrayControllerInputItems items;
   // We properly insert C at index 2
-  Items.insert({0, _datasource.collectionView numberOfItemsInSection});
   Items.insert({0, [_listOfModels count] ? [_listOfModels count] -1 : 0});
   // Enqueue the changeset asynchronously in the datasource
   [_datasource enqueueChangeset:{{}, items}];
