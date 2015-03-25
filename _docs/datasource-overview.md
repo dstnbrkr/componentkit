@@ -8,11 +8,11 @@ ComponentKit really shines when used with a `UICollectionView`.
 
 ### Automatic reuse
 
-Who hasn't had bugs with cell reuse ? In ComponentKit, the declarative nature of a Component makes it so you don't have to worry about reuse anymore! [This article in objc.io](http://www.objc.io/issue-22/facebook.html) explains in great detail how we achieve **automatic reuse and reconfiguration** with ComponentKit.
+Who hasn't had bugs with cell reuse? In ComponentKit, the declarative nature of a Component makes it so you don't have to worry about reuse anymore! [This article in objc.io](http://www.objc.io/issue-22/facebook.html) explains in great detail how we achieve **automatic reuse and reconfiguration** with ComponentKit.
 
 ### Scroll performance
 
-**ComponentKit addresses common scroll performance issues holistically**. Putting cells on screen is usually very performance sensitive, cells are dequeued while scrolling is  happening so any frame drop will be immediately visible.
+**ComponentKit addresses common scroll performance issues holistically**. Putting cells on screen is usually very performance sensitive. Cells are dequeued during scrolling, so any frame drop will be immediately visible.
 
 Automatic and optimized reuse is already great for performance. But also, because generating a component and laying it out is just a **succession of pure functions working with immutable data** this operation can be very **easily moved to the background**.
 
