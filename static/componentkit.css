@@ -171,14 +171,14 @@ ul, ol {
 
 a {
     text-decoration: none;
-    color: #1D9CC7;
+    color: #1C9BC7;
 }
 
 nav.toc a {
     color: #444;
 }
 nav.toc a.active {
-    color: #1D9CC7;
+    color: #1C9BC7;
 }
 
 a.hash-link {
@@ -186,7 +186,7 @@ a.hash-link {
 }
 
 a.hash-link:hover {
-    color: #1D9CC7;
+    color: #1C9BC7;
 }
 
 .width {
