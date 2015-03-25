@@ -89,7 +89,7 @@ To unset, just `setDebugMode:NO` instead.
 
 This helper really shines when you can actually see the view hierarchy, be it in Xcode or [Reveal](http://revealapp.com/) 
 
-If you use the the `Xcode`'s default `Debug View Hierarchy` tool to see the individual views:
+If you use the the Xcode's default *Debug View Hierarchy* tool to see the individual views:
 
 ![Debug Components with Xcode](/static/images/xcode-debug.png)
 
