@@ -75,7 +75,9 @@ Let's add a section at index 0 and two items in this section at index 0 and 1.
 		// Don't forget the insertion of section 0
 		changeset.sections.insert(0);
 		changeset.items.insert({0,0}, firstModel);
-		changeset.items.insert({0,1}, secondModel);
+		// You can also use NSIndexPath
+		NSIndexPath indexPath = [NSIndexPath indexPathForItem:1 inSection:0];
+		changeset.items.insert(indexPath, secondModel);
 		[self.dataSource enqueueChangeset:changeset constrainedSize:{{0,0}, {50, 50}}];
 	}
 {% endraw %}
