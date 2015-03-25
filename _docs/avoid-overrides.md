@@ -8,7 +8,7 @@ Method overrides make components more difficult to use.
 Imagine you're adding an optional text color parameter to a component. You might be tempted to add an override:
 
 {% highlight objc++ cssclass=redhighlight %}
-@interface CKLabelComponent
+@interface ArticleTextComponent
 + (instancetype)newWithText:(NSString *)text;
 + (instancetype)newWithText:(NSString *)text textColor:(UIColor *)textColor;
 @end
@@ -18,7 +18,7 @@ But someone will later add another override:
 
 {% highlight objc++ cssclass=redhighlight %}
 
-  @interface CKLabelComponent
+  @interface ArticleTextComponent
   + (instancetype)newWithText:(NSString *)text;
   + (instancetype)newWithText:(NSString *)text textColor:(UIColor *)textColor;
   + (instancetype)newWithText:(NSString *)text backgroundColor:(UIColor *)textColor;
@@ -34,7 +34,7 @@ Instead, always expose all parameters in a single designated initializer and doc
 
   ```objc++
 
-@interface CKLabelComponent
+@interface ArticleTextComponent
 /**
  @param text The text to render in the component.
  @param textColor Optional; pass nil for the default.
