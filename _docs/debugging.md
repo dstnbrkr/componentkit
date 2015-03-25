@@ -4,7 +4,7 @@ layout: docs
 permalink: /docs/debugging.html
 ---
 
-ComponentKit generally uses generic views such as `UIButton`, `UIImageView`, etc. under the hood. Hence, when you run a command in the LLDB debugger like [Chisel's](http://www.github.com/facebook/chisel) `pviews` you're likely to get a very generic hierarchy that doesn't point you to the component you might want to know more about. The following is the output of running `pviews` for an application using ComponentKit.
+When working with ComponentKit, you would generally uses generic views such as `UIButton`, `UIImageView`, etc. under the hood. Hence, when you run a command in the LLDB debugger like [Chisel's](http://www.github.com/facebook/chisel) `pviews` you're likely to get a very generic view hierarchy that gives no information about any component. The following is the output of running `pviews` for an application using ComponentKit.
 
 ```
 | <UICollectionView: 0x7caf3800; frame = (0 0; 320 568); clipsToBounds = YES; autoresize = W+H; gestureRecognizers = <NSArray: 0x7b462e50>; layer = <CALayer: 0x7b462a80>; contentOffset: {0, 315}; contentSize: {320, 5951}> collection view layout: <UICollectionViewFlowLayout: 0x7ae60ab0>
@@ -15,14 +15,7 @@ ComponentKit generally uses generic views such as `UIButton`, `UIImageView`, etc
 |    |    |    |    | <CKTextComponentView: 0x7ae61820; baseClass = UIControl; frame = (20.5 70; 278.5 240.5); userInteractionEnabled = NO; layer = <CKTextComponentLayer: 0x7ae61da0>>
 |    |    |    |    | <CKTextComponentView: 0x7ae71820; baseClass = UIControl; frame = (230.5 310.5; 64.5 160.5); userInteractionEnabled = NO; layer = <CKTextComponentLayer: 0x7ae640f0>>
 |    |    |    |    | <UIView: 0x7ae72670; frame = (0 496; 320 0.5); layer = <CALayer: 0x7ae726e0>>
-|    | <UICollectionViewCell: 0x7b249ea0; frame = (0 496.5; 320 355.5); layer = <CALayer: 0x7b249f40>>
-|    |    | <UIView: 0x7b249f70; frame = (0 0; 320 355.5); gestureRecognizers = <NSArray: 0x7b544aa0>; layer = <CALayer: 0x7b249fe0>>
-|    |    |    | <UIView: 0x7b24a0f0; frame = (0 0; 320 355.5); gestureRecognizers = <NSArray: 0x7b24a430>; layer = <CALayer: 0x7b24a160>>
-|    |    |    |    | <UIImageView: 0x7b24a640; frame = (0 0; 320 355); clipsToBounds = YES; opaque = NO; userInteractionEnabled = NO; layer = <CALayer: 0x7b24a6c0>>
-|    |    |    |    | <UIView: 0x7b24a920; frame = (0 40; 280 275); layer = <CALayer: 0x7b24a990>>
-|    |    |    |    | <UIView: 0x7b24acc0; frame = (10 40; 20 40); layer = <CALayer: 0x7b24ad30>>
-|    |    |    |    | <CKTextComponentView: 0x7b46e120; baseClass = UIControl; frame = (50 90; 210 175); userInteractionEnabled = NO; layer = <CKTextComponentLayer: 0x7b46d880>>
-|    |    |    |    | <UIView: 0x7b46d970; frame = (0 355; 320 0.5); layer = <CALayer: 0x7b464cd0>>
+...................................
 |    | <UICollectionViewCell: 0x7b1b6040; frame = (0 852; 320 416.5); layer = <CALayer: 0x7b1a8990>>
 |    |    | <UIView: 0x7b1b0600; frame = (0 0; 320 416.5); gestureRecognizers = <NSArray: 0x7b1ac610>; layer = <CALayer: 0x7b1b93f0>>
 |    |    |    | <UIView: 0x7b1a6530; frame = (0 0; 320 416.5); gestureRecognizers = <NSArray: 0x7b1aa1d0>; layer = <CALayer: 0x7b1a65a0>>
