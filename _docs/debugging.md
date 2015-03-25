@@ -29,7 +29,9 @@ When working with ComponentKit, you would generally uses generic views such as `
 ComponentKit includes a set of debugging tools that help you debug component hierarchies.
 
 <div class="note-important">
-  The following functionality is intended for debugging only and is not suitable for use in production.
+  <p>
+    The following functionality is intended for debugging only and is not suitable for use in production.
+  </p>
 </div>
 
 ## Print Component Hierarchy 
