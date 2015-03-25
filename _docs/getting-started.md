@@ -27,11 +27,11 @@ First we'll need to figure out which component we need to change. Pause the app 
 (lldb) e (void)[CKComponentDebugController setDebugMode:YES]
 ```
 
-Then click the [Debug View Hierarchy](https://developer.apple.com/library/ios/recipes/xcode_help-debugger/using_view_debugger/using_view_debugger.html) button in Xcode:
+Then click the [Debug View Hierarchy](https://developer.apple.com/library/ios/recipes/xcode_help-debugger/using_view_debugger/using_view_debugger.html) button in Xcode and browse through the view hierarchy:
 
 <img src="/static/images/debugger-frosted-quote.png" alt="Debugger showing FrostedQuoteComponent">
 
-Aha! So we need to modify `FrostedQuoteComponent`. Browsing that file should make a few things clear:
+Aha! So we need to modify `FrostedQuoteComponent`. That file should make a few things clear:
 
 - It uses the `LosAngeles` background image.
 - The content is inset by 20 points on the left and right, 70 points on the top, and 25 points on the bottom.
