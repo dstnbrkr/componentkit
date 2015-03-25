@@ -4,11 +4,9 @@ layout: docs
 permalink: /docs/check-for-nil.html
 ---
 
-Remember: **`+new` can always return nil**. This is particularly important when you're dealing with ivars.
+Remember: **`+new` can always return nil**. ComponentKit adopts the convention that a component may return nil from `+new` to signal that it has no data to render.
 
-ComponentKit has adopted the convention that a component may return nil from `+new` to signal that it has no data to render. For example, `CKLabelComponent` returns nil if there are is no string specified.
-
-This is important when you are implementing `+new` because you must be prepared to deal with `[super +new...]` returning nil.
+This is important when you are implementing `+new`; you must check if `[super +new...]` returned nil before assigning to ivars.
 
 {% highlight objc++ cssclass=redhighlight %}
 @implementation CKMyComponent
