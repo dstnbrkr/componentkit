@@ -7,7 +7,7 @@ permalink: /docs/build-collectionview-using-componentkit.html
 We will assume a simple setup with a `UIViewController` using a `UICollectionView` using a regular `UICollectionViewFlowLayout`.
 ## Setup
 ### Component Provider
-The datasource creates the components corresponding to a model, to do so it needs to know how to transform a certain model into a component tree. This transformation should be defined as a class method on a class conforming to `CKComponentProviding` that we will then be passed as the component provider.
+The datasource is responsible for creating a component corresponding to each model. This transformation should be defined as a method on a class conforming to `CKComponentProviding` that we will then be passed as the component provider.
 
 Let's make our UIViewController be the component provider here.
 
@@ -22,11 +22,11 @@ Let's make our UIViewController be the component provider here.
 	}
 	...
 
-- **Why using a class Method and not a block?** The transform model->component should be pure, but blocks makes it very easy to capture mutable state that could introduce side effects in the system. Using a class method allows to better enforce the constraint of purity from an API standpoint.
-- **What is this context ?** The context as its name implies contains immutable contextual data. It is setup during the initialization of the datasource and can be used to pass in: action handlers, display state, dependencies such as an image cache or an image downloader.
+- **Why use a class Method and not a block?** The transform model->component should be pure, but blocks makes it very easy to capture mutable state that could introduce side effects in the system. Using a class method allows us to better enforce the constraint of purity from an API standpoint.
+- **What is this context ?** The context, as its name implies, contains immutable contextual data. It is setup during the initialization of the datasource and can be used to pass in: action handlers, display state, dependencies such as an image cache or an image downloader.
 
 {% highlight objc++ cssclass=redhighlight %}
-Don't get global state inside a Component use the context to pass this information instead.
+Don't access global state inside a Component. Use the context to pass this information instead.
 {% endhighlight %}
 
 ### Create your datasource
@@ -44,7 +44,7 @@ Note that we pass the context in the initializer, it is the same context that yo
 ## Add/Modify content in the collection view
 
 ### Changeset API
-Using CKCollectionViewDataSource you never modifies the collection view directly but send commands to the datasource that will then compute the components and apply the corresponding changes to the collection view.
+Using CKCollectionViewDataSource you never modify the collection view directly but send commands to the datasource that will then compute the components and apply the corresponding changes to the collection view.
 
 Let's add a section at index 0 and two items in this section at index 0 and 1.
 {% raw  %}
@@ -75,7 +75,7 @@ You can also remove items and sections through this changeset API, more details 
 As you can see above we pass a constrained size every time a changeset is enqueued, this constrained size is used internally to layout the components and compute their final size. The form of the constrained size is: {% raw  %}`{{minWidth, minHeight},{maxWidth, maxHeight}}`{% endraw %}.
 In the above code the width of the component layout will have to be 50pt while the height will depend on the content.
 
-Let's see how we can use the computed component sizes with our `UICollectionViewFlowLayout`, let's also assume that our view controller is the delegate of the flow layout.
+Let's see how we can use the computed component sizes with our `UICollectionViewFlowLayout`, assuming that our view controller is the delegate of the flow layout.
 
 We will size each item so that it matches the size of their computed component.
 
@@ -91,7 +91,7 @@ Pretty simple right ? And this logic can apply to any `UICollectionViewLayout`, 
 
 ## Handle actions
 
-Time to interact with those items now, nothing special here you can use the regular selection APIs. Let's say our models sometimes have an URL that we want to open every time the user taps on an item.
+Time to interact with those items now; nothing special here you can use the regular selection APIs. Let's say our models sometimes have a URL that we want to open every time the user taps on an item.
 
 ```objc++
 	- (void)dataSource:(CKComponentCollectionViewDataSource *)dataSource didSelectItemAtIndexPath:(NSIndexPath *)indexPath
