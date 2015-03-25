@@ -4,7 +4,7 @@ layout: docs
 permalink: /docs/debugging.html
 ---
 
-ComponentKit generally uses generic views such as `UIButton`, `UIImageView`, etc. under the hood. Hence, when you run a command like `pviews` you're likely to get a very generic hierarchy that doesn't point you to the component you might want to know more about. The following is the output of running `pviews` for components.
+ComponentKit generally uses generic views such as `UIButton`, `UIImageView`, etc. under the hood. Hence, when you run a command in the LLDB debugger like [Chisel's](http://www.github.com/facebook/chisel) `pviews` you're likely to get a very generic hierarchy that doesn't point you to the component you might want to know more about. The following is the output of running `pviews` for an application using ComponentKit.
 
 ```
 | <UICollectionView: 0x7caf3800; frame = (0 0; 320 568); clipsToBounds = YES; autoresize = W+H; gestureRecognizers = <NSArray: 0x7b462e50>; layer = <CALayer: 0x7b462a80>; contentOffset: {0, 315}; contentSize: {320, 5951}> collection view layout: <UICollectionViewFlowLayout: 0x7ae60ab0>
@@ -35,9 +35,19 @@ ComponentKit generally uses generic views such as `UIButton`, `UIImageView`, etc
 
 As you can see, this is very generic and it is almost impossible to get back to the component from this view output. Hence, we have created a set of debugging tools that help you achieve that simply.
 
-## pcomponents 
+<div class="note-important">
+  The following functionality is intended for debugging only and is not suitable for use in production.
+</div>
 
-`pcomponents` allows you to print the component hierarchy, including layout information like position and size. It is designed to be analogous to how `pviews` works. It is the easiest way to reason about where your layout might have gone wrong while looking at the component rendered on screen. It can generally be called just by saying `pco` in the debug console.
+## Print Component Hierarchy 
+
+ComponentKit comes with helpers to print the component hierarchy. When running the application, in the debug console you can type
+
+```lldb
+(lldb) po [CKComponentHierarchyDebugHelper componentHierarchyDescription]
+```
+
+This allows you to print the component hierarchy, including layout information like position and size. It is designed to be analogous to how `pviews` works. It is the easiest way to reason about where your layout might have gone wrong while looking at the component rendered on screen. 
 
 ```
 For View: <UIView: 0x7b249f70; frame = (0 0; 320 355.5); gestureRecognizers = <NSArray: 0x7b544aa0>; layer = <CALayer: 0x7b249fe0>>
@@ -58,15 +68,17 @@ For View: <UIView: 0x7b249f70; frame = (0 0; 320 355.5); gestureRecognizers = <N
 | | <CKComponent: 0x7ae6f5e0>, Position: {0, 355}, Size: {320, 0.5}
 ```
 
- Optionally it takes in a view from where to begin its search and the search can be upwards as well, as shown below... in this case, it traverses up to find the first view on which there's a component hierarchy attached. Note that `pcomponents` works by finding the view at which the root component is attached and then printing the view hierarchy from then onwards.
+Optionally you can use:
 
+```lldb
+(lldb) po [CKComponentHierarchyDebugHelper componentHierarchyDescriptionForView:0x7be52100 searchUpwards:NO]
 ```
-pcomponents -u 0x81901e30
-```
-  
+ 
+This method takes in a view from where to begin its search and the search can be upwards as well, as shown in this case, it traverses up to find the first view on which there's a component hierarchy attached. Note that this works by finding the view at which the root component is attached and then printing the view hierarchy from there downwards.
+
 <div class="note">
   <p>
-     Generally, if you run <code>pcomponents</code> you will be presented with multiple component hierarchies, one each for each visible cell. To get the component hierarchy for the cell you're interested in, type <code>taplog</code> on the console and click on a view in the cell you're interested in - <code>taplog</code> would give you the memory address of that view, which you can copy. Then you can use <code>pcomponents -u &lt;Address of View&gt;</code> to get the hierarchy for the cell you are interested in.
+     Generally, if you run this helper you will be presented with multiple component hierarchies, one each for each visible cell. To get the component hierarchy for the cell you're interested in, type <code>taplog</code> on the console and click on a view in the cell you're interested in - <code>taplog</code> would give you the memory address of that view, which you can copy. Then you can use the helper method with the search upwards functionality to get the hierarchy for the cell you are interested in.
   </p>
 </div>
 
