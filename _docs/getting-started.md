@@ -4,7 +4,7 @@ layout: docs
 permalink: /docs/getting-started.html
 ---
 
-<div class="note>
+<div class="note">
   This guide assumes you have <a href="http://cocoapods.org/" alt="CocoaPods">Cocoapods</a> installed and running.
 </div>
 
